@@ -9,20 +9,16 @@ command -v psql >/dev/null 2>&1 || { echo >&2 "Aborting: psql CLI not installed,
 command -v dropdb >/dev/null 2>&1 || { echo >&2 "Aborting: dropdb CLI not installed, please install postgres with your OS"; exit 1; }
 command -v createdb >/dev/null 2>&1 || { echo >&2 "Aborting: createdb CLI not installed, please install postgres with your OS"; exit 1; }
 command -v pg_dump >/dev/null 2>&1 || { echo >&2 "Aborting: pg_dump CLI not installed, please install postgres with your OS"; exit 1; }
-
+command -v brew >/dev/null 2>&1 || { echo >&2 "Aborting: brew CLI not installed, please install brew with your OS"; exit 1; }
 
 # Env for local postgres server
 PG_LOCAL_DB_NAME="${PG_LOCAL_DB_NAME:-saga}"
 PG_LOCAL_OWNER="${PG_LOCAL_OWNER:-postgres}"
 PG_LOCAL_HOST="${PG_LOCAL_HOST:-localhost}"
-
-# Env for remote server on gcloud
-PG_REMOTE_DB_NAME="${PG_REMOTE_DB_NAME:-saga-data-dev}"
-PG_REMOTE_USER="${PG_REMOTE_OWNER:-saga}"
-PG_REMOTE_HOST="${PG_REMOTE_HOST:-aa13ivyx4283ufi.cjukwq7hl0d6.us-east-1.rds.amazonaws.com}"
-
 # Shared env for local and remote server
 PG_PORT="${PG_PORT:-5432}"
+
+brew services restart postgresql
 
 # Drop db if it exists, see: https://stackoverflow.com/questions/14549270/check-if-database-exists-in-postgresql-using-shell
 if psql -lqt | cut -d \| -f 1 | grep -qw $PG_LOCAL_DB_NAME; then
@@ -42,11 +38,17 @@ createdb $PG_LOCAL_DB_NAME \
   --host=$PG_LOCAL_HOST \
   --port=$PG_PORT
 
-echo "Please enter password for remote postgres server"
-pg_dump $PG_REMOTE_DB_NAME > db/dump -h $PG_REMOTE_HOST -p $PG_PORT -U $PG_REMOTE_USER
+read -p "Grab DB dump from the hosted database server ? (y/n) " RESP
 
-echo "Inserting dump into local, please enter password for local postgres server"
+if [ "$RESP" = 'y' ]; then
+  # Env for remote server on gcloud
+  PG_REMOTE_DB_NAME="${PG_REMOTE_DB_NAME:-saga-data-dev}"
+  PG_REMOTE_USER="${PG_REMOTE_OWNER:-saga}"
+  PG_REMOTE_HOST="${PG_REMOTE_HOST:-aa13ivyx4283ufi.cjukwq7hl0d6.us-east-1.rds.amazonaws.com}"
+  echo "Please enter password for remote postgres server"
+  pg_dump $PG_REMOTE_DB_NAME > db/dump -h $PG_REMOTE_HOST -p $PG_PORT -U $PG_REMOTE_USER
+fi
+
+echo "Inserting dump into local database, please enter password for local postgres server"
 psql -h localhost -p 5432 $PG_LOCAL_DB_NAME < ./db/dump
-
-
 exit;

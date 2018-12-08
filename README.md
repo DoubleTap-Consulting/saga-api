@@ -7,33 +7,11 @@ Node, Express, Objection, PostgresSQL
 # Installing PostGres for Mac
 `brew install postgres`
 
-# Accessing DB from Google Cloud
-Install gcloud: https://cloud.google.com/sdk/docs/#install_the_latest_cloud_tools_version_cloudsdk_current_version
+# Grabbing Dump
 
-cd into phrhero-api
+Ask admin of DB (John Huynh) to get a sql dump for the DB, or if the database server is up, then one can run the `./db/refresh` script to grab it from the remote server.
 
-After installing, initialize your gcloud to connect with your phrhero gcloud account
-
-`gcloud init`
-
-Ensure gcloud works: 
-
-`gcloud sql instances describe phrhero-data-dev`
-
-Add your IP to the white list for our SQL server:
-1. Go to https://console.cloud.google.com/sql/instances/phrhero-data-dev/authorization
-2. go to http://ipv4.whatismyv6.com/ and note down your ip
-3. whitelist your ip by clicking "Add network"
-
-Connect to your psql database:
-
-`https://cloud.google.com/sql/docs/postgres/external-connection-methods?hl=en_US`
-
-For us, our static IP for our database is 104.154.74.181:
-
-`psql "sslmode=disable dbname=postgres user=postgres hostaddr=104.154.74.181"`
-
-`psql "sslmode=disable dbname=postgres user=postgres hostaddr=104.154.74.181"`
+The dump should be named `dump` and be placed in the `db folder at the root level.
 
 If you want to have a GUI to access your database, use pgAdmin.
 
