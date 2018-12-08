@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "baseUrl": "./src",
+    "lib": [
+      "es6"
+    ],
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "removeComments": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es6",
+    "paths": {
+        "@config/*": [ "src/config/*" ]
+    }
+  },
+  "include": [
+      "src/**/*"
+  ]
+}

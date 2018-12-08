@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Must run from root of project
+path=$(pwd)
+cp $path/conf/git-hooks/pre-commit $path/.git/hooks/pre-commit
+chmod +x $path/.git/hooks/pre-commit
+
+exit 0;
