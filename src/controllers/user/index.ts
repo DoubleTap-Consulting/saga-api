@@ -42,7 +42,7 @@ export const create = async (
       process.env.WEBUI_URL
     }/account-confirmed?activationToken=${activationToken}`;
     await sendgridService.send({
-      to: 'huynh.j93@gmail.com',
+      to: req.body.email,
       from: 'contact@saga.gg',
       content: `Please click the following link to verify your email address and activate your account: ${redirectUrl}`,
       subject: 'Verify your email address for your Saga account.',

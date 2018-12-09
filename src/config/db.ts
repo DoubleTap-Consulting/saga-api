@@ -9,7 +9,7 @@ export const dbInit = async function(env: {
   try {
     const knex = Knex({
       client: env.DB_DIALECT,
-      connection: 'postgres://postgres:wrongpassword@localhost:5432/saga',
+      connection: env.DATABASE_URL,
       searchPath: ['public'!, 'public'],
       // todo: have to figure out why we're creating >10 connections to database...
       // pool: {
