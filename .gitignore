@@ -63,6 +63,7 @@ typings/
 # db dump from google cloud
 
 db/dump
+db/dump2
 
 # dev workspaces
 .vscode

@@ -18,7 +18,7 @@ PG_LOCAL_HOST="${PG_LOCAL_HOST:-localhost}"
 # Shared env for local and remote server
 PG_PORT="${PG_PORT:-5432}"
 
-brew services restart postgresql
+# brew services restart postgresql
 
 # Drop db if it exists, see: https://stackoverflow.com/questions/14549270/check-if-database-exists-in-postgresql-using-shell
 if psql -lqt | cut -d \| -f 1 | grep -qw $PG_LOCAL_DB_NAME; then
