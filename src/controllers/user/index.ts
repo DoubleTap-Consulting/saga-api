@@ -17,8 +17,8 @@ export const create = async (
   next: express.NextFunction,
 ): Promise<any> => {
   try {
-    const user = await User.query().findOne({ email: req.body.email });
-
+    const user = await User.basicInfo().findOne({ email: req.body.email });
+    console.log('='.repeat(10), 'user is', '='.repeat(10), '\n', user);
     if (user) {
       return next({
         status: httpStatus.CONFLICT,
@@ -28,26 +28,28 @@ export const create = async (
 
     // setCode using a uuid
     const activationToken = uuid.v4();
+    const hashedPassword = await User.hashPassword(req.body.password);
     const createdUser = await User.query().insertGraph({
       email: req.body.email,
       gamerTag: req.body.gamerTag,
-      password: req.body.password,
-      userActivation: [
+      password: hashedPassword,
+      userToken: [
         {
-          token: activationToken,
+          activation: activationToken,
         },
       ],
     });
     const redirectUrl = `${process.env.WEBUI_PROTOCOL}://${
       process.env.WEBUI_URL
     }/account-confirmed?activationToken=${activationToken}`;
+    console.log('='.repeat(10), 'sending sendgrid email', '='.repeat(10), '\n');
     await sendgridService.send({
       to: req.body.email,
       from: 'contact@saga.gg',
       content: `Please click the following link to verify your email address and activate your account: ${redirectUrl}`,
       subject: 'Verify your email address for your Saga account.',
     });
-    res.json(createdUser);
+    res.status(httpStatus.OK).send('Created successfully');
   } catch (e) {
     return next(e);
   }

@@ -8,6 +8,7 @@ export const authError = (
   res: express.Response,
   next: express.NextFunction,
 ): any => {
+  console.info('Error occurred 4', err);
   if (err.name === 'UnauthorizedError') {
     let message = 'Unauthorized token';
     if (!isProd) {
@@ -51,6 +52,7 @@ export const objectionError = (
     return next(err);
   }
 
+  console.info('Error occurred 2', err);
   if (!isProd) {
     message = `${message}: ${err.message}`;
   }
@@ -66,8 +68,8 @@ export const genericError = (
 ): void => {
   // console.log(err.name);
   let message = err.message || 'Something went wrong';
-  if (!isProd) {
-    message = `${message}: ${err}`;
+  if (!isProd && !err.message) {
+    message = `${message}: ${JSON.stringify(err)}`;
   }
   console.info('Error occurred', err);
   res.status(err.status || 500).send(message);

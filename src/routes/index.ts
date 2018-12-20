@@ -8,7 +8,7 @@ const router = express.Router();
 /** GET /health-check - Check service health */
 router.get('/health-check', (req: Request, res: Response) => res.json({ status: 'OK '}));
 
-router.use('/authentication', authenticationRoutes);
+router.use('/auth', authenticationRoutes);
 router.use('/users', userRoutes);
 
 export default router;

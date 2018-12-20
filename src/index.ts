@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 
 import * as express from 'express';
+import * as passport from 'passport';
 import * as compression from 'compression';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
@@ -10,8 +11,9 @@ import * as helmet from 'helmet';
 import * as expressValidation from 'express-validation';
 import * as path from 'path';
 import { dbInit } from './config/db';
+// import './config/passport-strategies/local'; // init passport strategies
 import routes from './routes';
-import { authError, objectionError, genericError, validationError } from './utils/error-handlers';
+import { authError, objectionError, genericError, validationError } from './utils/middleware/error-handlers';
 
 const { Model } = require('objection');
 
@@ -22,6 +24,8 @@ const app = express()
   .set('port', 4240)
   .use(helmet())
   .use(compression())
+  // initialize passport
+  .use(passport.initialize())
   .use(cors())
   .use(logger('short'))
   .use(bodyParser.json())

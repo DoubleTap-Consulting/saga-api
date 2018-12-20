@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcryptjs';
+import { throws } from 'assert';
 
 const { Model } = require('objection');
 
@@ -9,17 +10,24 @@ export class User extends Model {
 
   static get relationMappings(): any {
     return {
-      userActivation: {
-        relation: Model.HasOneRelation,
-        modelClass: `${__dirname}/userActivation`,
+      userToken: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/userToken`,
         join: {
           from: 'user.id',
-          to: 'userActivation.userId',
+          to: 'userToken.userId',
         },
       },
     };
   }
 
+  static checkPasword(password: string, hashedPassword: string): boolean {
+    return bcrypt.compareSync(password, hashedPassword);
+  }
+
+  static basicInfo(): any {
+    return this.query().select('id', 'gamerTag', 'email');
+  }
   /**
    *
    * @param token the token to be inserted into the users table

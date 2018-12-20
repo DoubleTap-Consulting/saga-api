@@ -1,8 +1,8 @@
 const { Model } = require('objection');
 
-export class UserActivation extends Model {
+export class UserToken extends Model {
   static get tableName(): string {
-    return 'userActivation';
+    return 'userToken';
   }
 
   static get relationMappings(): any {
@@ -11,7 +11,7 @@ export class UserActivation extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/user`,
         join: {
-          from: 'userActivation.userId',
+          from: 'userToken.userId',
           to: 'user.id',
         },
       },

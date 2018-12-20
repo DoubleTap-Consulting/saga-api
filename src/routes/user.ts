@@ -9,7 +9,7 @@ const router = express.Router();
  * POST /api/v1/user,
  * returns new auth token
  */
-router.post('/', userCtrl.create);
+// router.post('/', userCtrl.create);
 
 /**
  * GET /api/v1/user/id,
