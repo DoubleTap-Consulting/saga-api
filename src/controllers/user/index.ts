@@ -18,7 +18,6 @@ export const create = async (
 ): Promise<any> => {
   try {
     const user = await User.basicInfo().findOne({ email: req.body.email });
-    console.log('='.repeat(10), 'user is', '='.repeat(10), '\n', user);
     if (user) {
       return next({
         status: httpStatus.CONFLICT,
@@ -42,7 +41,6 @@ export const create = async (
     const redirectUrl = `${process.env.WEBUI_PROTOCOL}://${
       process.env.WEBUI_URL
     }/account-confirmed?activationToken=${activationToken}`;
-    console.log('='.repeat(10), 'sending sendgrid email', '='.repeat(10), '\n');
     await sendgridService.send({
       to: req.body.email,
       from: 'contact@saga.gg',

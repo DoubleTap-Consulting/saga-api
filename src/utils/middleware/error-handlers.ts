@@ -66,7 +66,6 @@ export const genericError = (
   res: express.Response,
   next: express.NextFunction,
 ): void => {
-  // console.log(err.name);
   let message = err.message || 'Something went wrong';
   if (!isProd && !err.message) {
     message = `${message}: ${JSON.stringify(err)}`;

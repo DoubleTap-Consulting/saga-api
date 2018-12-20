@@ -23,7 +23,6 @@ export const token = async (
  */
 async function sign(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
   try {
-    console.log('='.repeat(10), 'signing and user is', '='.repeat(10), '\n', req.user);
     const id = req.user.id || req.user.userId;
 
     const user = await User.basicInfo().findById(id);
@@ -35,21 +34,10 @@ async function sign(req: express.Request, res: express.Response, next: express.N
       });
     }
 
-    // const permissions = authHelper.generatePermissions(user);
-
-    // if (!permissions.length) {
-    //   return next({
-    //     status: httpStatus.INTERNAL_SERVER_ERROR,
-    //     message: 'Role Not Found'
-    //   });
-    // }
-
     const tokens = await authHelper.generateTokens(user);
     const { accessToken, refreshToken } = tokens;
     const decodedRefreshToken = jwt.decode(refreshToken, { complete: true });
     const decodedAccessToken = jwt.decode(accessToken, { complete: true });
-    console.log('='.repeat(10), 'decodedAccessToken', '='.repeat(10), '\n', decodedAccessToken);
-    console.log('='.repeat(10), 'decodedRefreshtoken', '='.repeat(10), '\n', decodedRefreshToken);
     const updatedUser = await User.query().upsertGraph({
       id: user.id,
       userToken: [{
@@ -61,7 +49,6 @@ async function sign(req: express.Request, res: express.Response, next: express.N
       accessToken,
       refreshToken,
       user,
-      // isAdmin: roleTypes.adminUsers.includes(user.role_slug)
     });
   } catch (e) {
     return next(e);
