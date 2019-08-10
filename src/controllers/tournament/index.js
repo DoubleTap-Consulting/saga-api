@@ -37,8 +37,6 @@ tournamentController.CREATE_TOURNAMENT = (req, res) => {
     return;
   }
 
-  tournament.user_id = authorized.decoded.user_id;
-
   return tournamentModel
     .CREATE_TOURNAMENT(tournament)
     .then(response => res.status(200).send(response));
