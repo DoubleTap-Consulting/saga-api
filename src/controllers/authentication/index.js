@@ -1,13 +1,10 @@
 import * as express from 'express';
 import * as httpStatus from 'http-status';
-import { User, UserToken } from '../../models/';
+import { User, UserToken } from '../../models';
 import authHelper from '../../utils/auth';
 import * as jwt from 'jsonwebtoken';
 
-export const token = async (
-  req: express.Request,
-  res: express.Response,
-): Promise<any> => {
+export const token = async (req, res) => {
   const dummyToken = 'absd';
   const user = User.createToken(dummyToken);
   res.json(dummyToken);
@@ -21,7 +18,7 @@ export const token = async (
  * @param next
  * @returns {*}
  */
-async function sign(req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> {
+async function sign(req, res, next) {
   try {
     const id = req.user.id || req.user.userId;
 
@@ -40,10 +37,18 @@ async function sign(req: express.Request, res: express.Response, next: express.N
     const decodedAccessToken = jwt.decode(accessToken, { complete: true });
     const updatedUser = await User.query().upsertGraph({
       id: user.id,
-      userToken: [{
-        refresh: decodedRefreshToken && typeof decodedRefreshToken === 'object' && decodedRefreshToken.signature,
-        access: decodedAccessToken && typeof decodedAccessToken === 'object' && decodedAccessToken.signature,
-      }],
+      userToken: [
+        {
+          refresh:
+            decodedRefreshToken &&
+            typeof decodedRefreshToken === 'object' &&
+            decodedRefreshToken.signature,
+          access:
+            decodedAccessToken &&
+            typeof decodedAccessToken === 'object' &&
+            decodedAccessToken.signature,
+        },
+      ],
     });
     return res.json({
       accessToken,
@@ -61,11 +66,7 @@ async function sign(req: express.Request, res: express.Response, next: express.N
  * @param res ExpressResp
  * @param next ExpressNext
  */
-export const verifyEmail = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-): Promise<any> => {
+export const verifyEmail = async (req, res, next) => {
   try {
     let user = await User.query()
       .findOne({})
@@ -78,8 +79,12 @@ export const verifyEmail = async (
       });
     } else {
       // Probably should do this in a transaction. Update the activated field to true, and then delete the token.
-      user = await User.query().findById(user.id).patch({ activated: true });
-      await UserToken.query().delete().where({ activation: req.query.activationToken });
+      user = await User.query()
+        .findById(user.id)
+        .patch({ activated: true });
+      await UserToken.query()
+        .delete()
+        .where({ activation: req.query.activationToken });
     }
     res.json({
       httpStatus: 'OK',

@@ -7,7 +7,7 @@ import * as express from 'express';
 passport.use(
   new localStrategy.Strategy(
     { usernameField: 'email' },
-    async (email: string, password: string, done: any): Promise<any> => {
+    async (email, password, done) => {
       try {
         const user = await User.query().findOne({ email });
 

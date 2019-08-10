@@ -3,20 +3,11 @@
 import * as SendGrid from 'sendgrid';
 import { env } from './env';
 
-export interface EmailRequest {
-  to: string;
-  from: string;
-  content: string;
-  subject: string;
-}
-
 class SendgridService {
-  private sendGrid: any;
-
-  constructor(private sendgridApiKey: string) {
+  constructor() {
     this.sendGrid = SendGrid(sendgridApiKey);
   }
-  createRequest(request: EmailRequest): any {
+  createRequest(request) {
     return this.sendGrid.emptyRequest({
       method: 'POST',
       path: '/v3/mail/send',
@@ -38,8 +29,10 @@ class SendgridService {
     });
   }
 
-  send(emailRequest: EmailRequest): Promise<any> {
-    const request = this.sendGrid.emptyRequest(this.createRequest(emailRequest));
+  send(emailRequest) {
+    const request = this.sendGrid.emptyRequest(
+      this.createRequest(emailRequest),
+    );
     return this.sendGrid.API(request);
   }
 }

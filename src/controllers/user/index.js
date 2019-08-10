@@ -11,11 +11,7 @@ import * as uuid from 'uuid';
  * @param res ExpressResp
  * @param next ExpressNext
  */
-export const create = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-): Promise<any> => {
+export const create = async (req, res, next) => {
   try {
     const user = await User.basicInfo().findOne({ email: req.body.email });
     if (user) {
@@ -53,11 +49,7 @@ export const create = async (
   }
 };
 
-export const getById = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-): Promise<any> => {
+export const getById = async (req, res, next) => {
   try {
     const dummyData3 = 'dummy-data';
     return res.json(dummyData3);

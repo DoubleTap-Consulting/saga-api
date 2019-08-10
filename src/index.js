@@ -13,7 +13,12 @@ import * as path from 'path';
 import { dbInit } from './config/db';
 // import './config/passport-strategies/local'; // init passport strategies
 import routes from './routes';
-import { authError, objectionError, genericError, validationError } from './utils/middleware/error-handlers';
+import {
+  authError,
+  objectionError,
+  genericError,
+  validationError,
+} from './utils/middleware/error-handlers';
 
 const { Model } = require('objection');
 

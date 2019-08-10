@@ -4,11 +4,11 @@ import { throws } from 'assert';
 const { Model } = require('objection');
 
 export class User extends Model {
-  static get tableName(): string {
+  static get tableName() {
     return 'user';
   }
 
-  static get relationMappings(): any {
+  static get relationMappings() {
     return {
       userToken: {
         relation: Model.HasManyRelation,
@@ -21,29 +21,27 @@ export class User extends Model {
     };
   }
 
-  static checkPasword(password: string, hashedPassword: string): boolean {
+  static checkPasword(password, hashedPassword) {
     return bcrypt.compareSync(password, hashedPassword);
   }
 
-  static basicInfo(): any {
+  static basicInfo() {
     return this.query().select('id', 'gamerTag', 'email');
   }
   /**
    *
    * @param token the token to be inserted into the users table
    */
-  static async hashPassword(password: string): Promise<any> {
+  static async hashPassword(password) {
     try {
-      const hashedPassword = await new Promise(
-        (resolve: any, reject: any): any => {
-          bcrypt.hash(password, 10, function(err: any, hash: any): any {
-            if (err) {
-              reject(err);
-            }
-            resolve(hash);
-          });
-        },
-      );
+      const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(password, 10, function(err, hash) {
+          if (err) {
+            reject(err);
+          }
+          resolve(hash);
+        });
+      });
       return hashedPassword;
     } catch (e) {
       throw {
@@ -53,7 +51,7 @@ export class User extends Model {
     }
   }
 
-  static async create(user: any): Promise<any> {
+  static async create(user) {
     try {
       const hashedPassword = await User.hashPassword(user.password);
       const newUser = await User.query().insert({
@@ -70,7 +68,7 @@ export class User extends Model {
     }
   }
 
-  static async createToken(token: string): Promise<any> {
+  static async createToken(token) {
     try {
       const user = await User.query().insert({
         firstName: 'Jennifer',

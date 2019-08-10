@@ -2,12 +2,7 @@ import * as express from 'express';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-export const authError = (
-  err: Error,
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-): any => {
+export const authError = (err, req, res, next) => {
   console.info('Error occurred 4', err);
   if (err.name === 'UnauthorizedError') {
     let message = 'Unauthorized token';
@@ -19,29 +14,19 @@ export const authError = (
   next(err);
 };
 
-export const validationError = (
-  err: Error,
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-): any => {
+export const validationError = (err, req, res, next) => {
   if (err.message === 'validation error') {
     return res.status(422).send(err);
   }
   next(err);
 };
 
-export const objectionError = (
-  err: any,
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-): any => {
+export const objectionError = (err, req, res, next) => {
   if (!err.statusCode) {
     return next(err);
   }
 
-  const errMsgs: { [index: string]: string } = {
+  const errMsgs = {
     400: 'Request unsuccessful',
     401: 'Unauthorized token',
     404: 'Resource not found',
@@ -59,13 +44,7 @@ export const objectionError = (
   return res.status(err.statusCode).send(message);
 };
 
-export const genericError = (
-  // TODO: create our own Error class
-  err: any,
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-): void => {
+export const genericError = (err, req, res, next) => {
   let message = err.message || 'Something went wrong';
   if (!isProd && !err.message) {
     message = `${message}: ${JSON.stringify(err)}`;

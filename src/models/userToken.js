@@ -1,11 +1,11 @@
 const { Model } = require('objection');
 
 export class UserToken extends Model {
-  static get tableName(): string {
+  static get tableName() {
     return 'userToken';
   }
 
-  static get relationMappings(): any {
+  static get relationMappings() {
     return {
       user: {
         relation: Model.BelongsToOneRelation,

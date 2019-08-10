@@ -17,4 +17,4 @@ const defaults = {
 };
 
 // todo: export default
-export let env: any = Object.assign(defaults, config);
+export let env = Object.assign(defaults, config);
