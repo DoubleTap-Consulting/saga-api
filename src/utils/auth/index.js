@@ -3,6 +3,9 @@ import * as _ from 'lodash';
 import { series } from 'async';
 import { env } from '../../config/env';
 
+let jwt = require('jsonwebtoken');
+let bcrypt = require('bcryptjs');
+
 /**
  * Generates jwt accessToken and refreshToken
  * @param userId
@@ -55,4 +58,44 @@ function generateTokens(user) {
   });
 }
 
-export default { generateTokens };
+const generateTokens = user_id => {
+  let token = jwt.sign(
+    {
+      user_id,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '168h' },
+  );
+
+  return token;
+};
+
+const verifyToken = token => {
+  return jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+    if (error) {
+      return {
+        succeeded: false,
+        error,
+      };
+    } else {
+      return {
+        succeeded: true,
+        decoded,
+      };
+    }
+  });
+};
+
+const hashPassword = password => {
+  return bcrypt.hash(password, 10).then(hash => {
+    return hash;
+  });
+};
+
+const comparePasswords = (password, hash) => {
+  return bcrypt.compare(password, hash).then(res => {
+    return res;
+  });
+};
+
+export default { generateTokens, verifyToken, hashPassword, comparePasswords };

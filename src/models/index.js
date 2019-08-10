@@ -1,7 +1,9 @@
 import * as objection from 'objection';
 const db = objection.Model;
+
 import { User } from './user';
 import { Tournament } from './tournament';
-import { UserToken } from './userToken';
+import { Authentication } from './authentication';
+import { Endorsement } from './endorsement';
 
-export { db, User, UserToken, Tournament };
+export { db, User, Authentication, Tournament, Endorsement };
