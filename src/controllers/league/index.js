@@ -1,5 +1,5 @@
 let { verifyToken } = require('../../utils/auth');
-let featuredController = {};
+let leagueController = {};
 let leagueModel = require('../../models/featured');
 
 leagueController.GET_LEAGUES = (req, res) => {

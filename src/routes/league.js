@@ -6,12 +6,12 @@ const router = express.Router();
  * POST /api/v1/league,
  * returns new league
  */
-router.post('/', leagueController.CREATE_LEAGUE);
+router.post('/leagues', leagueController.CREATE_LEAGUE);
 
 /**
  * GET /api/v1/league/,
- * returns league
+ * returns leagues
  */
-router.get('/', leagueController.GET_LEAGUE);
+router.get('/leagues', leagueController.GET_LEAGUES);
 
 module.exports = router;
