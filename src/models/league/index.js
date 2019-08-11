@@ -1,18 +1,18 @@
-let leageModel = {};
+let leagueModel = {};
 let League = require('../../db').league;
 
-leageModel.GET_LEAGUES = () => {
+leagueModel.GET_LEAGUES = () => {
   return League.findAll({
   }).then(leagues => leagues);
 };
 
-leageModel.CREATE_LEAGUE = leagueData => {
+leagueModel.CREATE_LEAGUE = leagueData => {
   return League.create(leagueData).then(league => {
     return league;
   });
 };
 
-leageModel.UPDATE_LEAGUE = (id, leagueData) => {
+leagueModel.UPDATE_LEAGUE = (id, leagueData) => {
   return League.update(leagueData, {
     returning: true,
     where: { id },
@@ -20,7 +20,7 @@ leageModel.UPDATE_LEAGUE = (id, leagueData) => {
   }).then(league => league);
 };
 
-leageModel.DELETE_LEAGUE = id => {
+leagueModel.DELETE_LEAGUE = id => {
   return League.destroy({
     where: {
       id,
@@ -28,4 +28,4 @@ leageModel.DELETE_LEAGUE = id => {
   }).then(league => league);
 };
 
-module.exports = leageModel;
+module.exports = leagueModel;
