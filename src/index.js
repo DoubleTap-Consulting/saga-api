@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 const routes = require('./routes');
 
 const app = express()
-  .set('port', 4240)
+  .set('port', $PORT || 4240)
   .use(helmet())
   // initialize passport
   .use(cors())
@@ -21,10 +21,4 @@ const app = express()
   .use('/api/v1', routes); // mount all routes in /api/v1
 
 // Start server
-app.listen(app.get('port'), () => {
-  console.info(
-    '  App is running at http://localhost:%d in %s mode',
-    app.get('port'),
-    app.get('env'),
-  );
-});
+app.listen(PORT, () => console.log('Making some magic on port ', PORT));
