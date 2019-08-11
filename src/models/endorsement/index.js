@@ -1,12 +1,8 @@
-const Endorsement = require('../../db').endorsements;
+const Endorsement = require('../../db').Endorsements;
 let endorsementModel = {};
 
-endorsementModel.GET_ENDORSEMENTS = endorsement_id => {
-  return Endorsement.findAll({
-    where: {
-      endorsement_id,
-    },
-  }).then(endorsements => endorsements);
+endorsementModel.GET_ENDORSEMENTS = () => {
+  return Endorsement.findAll({}).then(endorsements => endorsements);
 };
 
 endorsementModel.GET_ENDORSEMENT = id => {

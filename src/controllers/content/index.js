@@ -3,10 +3,8 @@ const { verifyToken } = require('../../utils/auth');
 let contentController = {};
 
 contentController.GET_CONTENT = (req, res) => {
-  let authorized = verifyToken(req.headers.authorization);
-
   return contentModel
-    .GET_CONTENT(authorized.decoded.user_id)
+    .GET_CONTENT()
     .then(response => res.status(200).send(response));
 };
 
@@ -27,14 +25,6 @@ contentController.GET_ARTICLE = (req, res) => {
 
 contentController.CREATE_ARTICLE = (req, res) => {
   const article = req.body;
-  let authorized = verifyToken(req.headers.authorization);
-
-  if (!authorized.decoded) {
-    res.status(400).send({
-      error: 'No account created',
-    });
-    return;
-  }
 
   return contentModel
     .CREATE_ARTICLE(article)

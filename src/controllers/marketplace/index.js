@@ -3,10 +3,8 @@ const marketplaceModel = require('../../models/marketplace');
 let marketplaceController = {};
 
 marketplaceController.GET_MARKETPLACE = (req, res) => {
-  const authorized = verifyToken(req.headers.authorization);
-
   return marketplaceModel
-    .GET_MARKETPLACE(authorized.decoded.user_id)
+    .GET_MARKETPLACE()
     .then(response => res.status(200).send(response));
 };
 
@@ -27,14 +25,6 @@ marketplaceController.GET_PRODUCT = (req, res) => {
 
 marketplaceController.CREATE_PRODUCT = (req, res) => {
   const product = req.body;
-  const authorized = verifyToken(req.headers.authorization);
-
-  if (!authorized.decoded) {
-    res.status(400).send({
-      error: 'No account created',
-    });
-    return;
-  }
 
   return marketplaceModel
     .CREATE_PRODUCT(product)

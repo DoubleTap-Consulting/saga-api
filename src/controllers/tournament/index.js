@@ -3,10 +3,8 @@ const tournamentModel = require('../../models/tournament');
 let tournamentController = {};
 
 tournamentController.GET_TOURNAMENTS = (req, res) => {
-  const authorized = verifyToken(req.headers.authorization);
-
   return tournamentModel
-    .GET_TOURNAMENTS(authorized.decoded.user_id)
+    .GET_TOURNAMENTS()
     .then(response => res.status(200).send(response));
 };
 
@@ -27,14 +25,6 @@ tournamentController.GET_TOURNAMENT = (req, res) => {
 
 tournamentController.CREATE_TOURNAMENT = (req, res) => {
   const tournament = req.body;
-  const authorized = verifyToken(req.headers.authorization);
-
-  if (!authorized.decoded) {
-    res.status(400).send({
-      error: 'No account created',
-    });
-    return;
-  }
 
   return tournamentModel
     .CREATE_TOURNAMENT(tournament)
