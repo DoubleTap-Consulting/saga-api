@@ -1,8 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { comparePasswords } = require('../../utils/auth');
-
+const User = require('../../db').Users;
 let userModel = {};
-let User = require('../../db').Users;
 
 userModel.SIGN_UP = (email, password, gamerTag) => {
   return hashPassword(password).then(hash => {

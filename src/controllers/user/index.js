@@ -50,30 +50,12 @@ userController.CREATE_USER = (req, res) => {
 };
 
 userController.GET_USER = (req, res) => {
-  const authorized = verifyToken(req.headers.authorization);
-
-  if (!authorized.decoded) {
-    res.status(400).send({
-      error: 'No account created',
-    });
-    return;
-  }
-
   return userModel
     .GET_USER(authorized.decoded.user_id)
     .then(response => res.status(200).send(response));
 };
 
 userController.GET_USERS = (req, res) => {
-  const authorized = verifyToken(req.headers.authorization);
-
-  if (!authorized.decoded) {
-    res.status(400).send({
-      error: 'No account created',
-    });
-    return;
-  }
-
   return userModel.GET_USERS().then(response => res.status(200).send(response));
 };
 

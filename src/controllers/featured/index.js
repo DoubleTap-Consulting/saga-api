@@ -3,23 +3,13 @@ const featuredModel = require('../../models/featured');
 let featuredController = {};
 
 featuredController.GET_FEATURED = (req, res) => {
-  const authorized = verifyToken(req.headers.authorization);
-
   return featuredModel
-    .GET_FEATURED(authorized.decoded.user_id)
+    .GET_FEATURED()
     .then(response => res.status(200).send(response));
 };
 
 featuredController.CREATE_FEATURED = (req, res) => {
   const featured = req.body;
-  const authorized = verifyToken(req.headers.authorization);
-
-  if (!authorized.decoded) {
-    res.status(400).send({
-      error: 'No account created',
-    });
-    return;
-  }
 
   return featuredModel
     .CREATE_FEATURED(featured)

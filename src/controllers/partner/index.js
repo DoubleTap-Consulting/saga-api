@@ -3,10 +3,8 @@ const partnerModel = require('../../models/partner');
 let partnerController = {};
 
 partnerController.GET_PARTNERS = (req, res) => {
-  const authorized = verifyToken(req.headers.authorization);
-
   return partnerModel
-    .GET_PARTNERS(authorized.decoded.user_id)
+    .GET_PARTNERS()
     .then(response => res.status(200).send(response));
 };
 
@@ -27,14 +25,6 @@ partnerController.GET_PARTNER = (req, res) => {
 
 partnerController.CREATE_PARTNER = (req, res) => {
   const partner = req.body;
-  const authorized = verifyToken(req.headers.authorization);
-
-  if (!authorized.decoded) {
-    res.status(400).send({
-      error: 'No account created',
-    });
-    return;
-  }
 
   return partnerModel
     .CREATE_PARTNER(partner)

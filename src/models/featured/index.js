@@ -1,12 +1,8 @@
-const Featured = require('../../db').featured;
+const Featured = require('../../db').Featured;
 let featuredModel = {};
 
-featuredModel.GET_FEATURED = featured_id => {
-  return Featured.findAll({
-    where: {
-      featured_id,
-    },
-  }).then(featured => featured);
+featuredModel.GET_FEATURED = () => {
+  return Featured.findAll({}).then(featured => featured);
 };
 
 featuredModel.CREATE_FEATURED = featured => {

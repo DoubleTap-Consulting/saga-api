@@ -1,12 +1,8 @@
-const Partner = require('../../db').partners;
+const Partner = require('../../db').Partners;
 let partnerModel = {};
 
-partnerModel.GET_PARTNERS = partner_id => {
-  return Partner.findAll({
-    where: {
-      partner_id,
-    },
-  }).then(partners => partners);
+partnerModel.GET_PARTNERS = () => {
+  return Partner.findAll({}).then(partners => partners);
 };
 
 partnerModel.GET_PARTNER = id => {

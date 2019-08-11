@@ -1,12 +1,8 @@
-const Content = require('../../db').content;
+const Content = require('../../db').Content;
 let contentModel = {};
 
-contentModel.GET_CONTENT = content_id => {
-  return Content.findAll({
-    where: {
-      content_id,
-    },
-  }).then(contents => contents);
+contentModel.GET_CONTENT = () => {
+  return Content.findAll({}).then(contents => contents);
 };
 
 contentModel.GET_ARTICLE = id => {

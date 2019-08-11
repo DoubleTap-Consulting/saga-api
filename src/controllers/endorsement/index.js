@@ -3,10 +3,8 @@ const endorsementModel = require('../../models/endorsement');
 let endorsementController = {};
 
 endorsementController.GET_ENDORSEMENTS = (req, res) => {
-  const authorized = verifyToken(req.headers.authorization);
-
   return endorsementModel
-    .GET_ENDORSEMENTS(authorized.decoded.user_id)
+    .GET_ENDORSEMENTS()
     .then(response => res.status(200).send(response));
 };
 
@@ -26,16 +24,7 @@ endorsementController.GET_ENDORSEMENT = (req, res) => {
 };
 
 endorsementController.CREATE_ENDORSEMENT = (req, res) => {
-  const endorsement = req.body;
-  const authorized = verifyToken(req.headers.authorization);
-
-  if (!authorized.decoded) {
-    res.status(400).send({
-      error: 'No account created',
-    });
-    return;
-  }
-
+  let endorsement = req.body;
   endorsement.user_id = authorized.decoded.user_id;
 
   return endorsementModel
