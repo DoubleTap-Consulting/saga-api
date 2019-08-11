@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 const { generateTokens } = require('../../utils/auth');
 const userModel = require('../../models/user');
+const authModel = require('../../models/auth');
 let authController = {};
 
 /**
