@@ -1,22 +1,19 @@
 let leageModel = {};
 let League = require('../../db').league;
 
-leageModel.GET_LEAGUES = league_id => {
+leageModel.GET_LEAGUES = () => {
   return League.findAll({
-    where: {
-      league_id,
-    },
   }).then(leagues => leagues);
 };
 
-leageModel.CREATE_LEAGUE = league => {
-  return League.create(league).then(league => {
+leageModel.CREATE_LEAGUE = leagueData => {
+  return League.create(leagueData).then(league => {
     return league;
   });
 };
 
-leageModel.UPDATE_LEAGUE = (id, leageData) => {
-  return League.update(leageData, {
+leageModel.UPDATE_LEAGUE = (id, leagueData) => {
+  return League.update(leagueData, {
     returning: true,
     where: { id },
     attributes: { exclude: ['updatedAt', 'createdAt'] },
