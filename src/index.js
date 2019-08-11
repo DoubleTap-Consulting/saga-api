@@ -6,12 +6,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const rootRouter = require('./routes');
 const helmet = require('helmet');
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4240;
 
 const routes = require('./routes');
 
 const app = express()
-  .set('port', $PORT || 4240)
   .use(helmet())
   // initialize passport
   .use(cors())
