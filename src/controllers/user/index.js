@@ -1,8 +1,8 @@
-import { sendgridService } from '../../config/sendgrid';
-import { verifyToken, generateTokens } from '../utils/auth';
+let { sendgridService } = require('../../config/sendgrid');
+let { verifyToken, generateTokens } = require('../../utils/auth');
 
 let userController = {};
-let userModel = require('../models/user');
+let userModel = require('../../models/user');
 let Promise = require('bluebird');
 
 /**
@@ -38,14 +38,14 @@ userController.SIGN_UP = (req, res) => {
           process.env.WEBUI_URL
         }/account-confirmed?activationToken=${activationToken}`;
 
-        await sendgridService.send({
+        sendgridService.send({
           to: email,
           from: 'contact@saga.gg',
           content: `Please click the following link to verify your email address and activate your account: ${redirectUrl}`,
           subject: 'Verify your email address for your Saga account.',
         });
 
-        let token = generateTokens(response.user.id);
+        let token = generateTokens(response.user);
         res.status(200).send({ token });
       });
   });
@@ -59,7 +59,7 @@ userController.SIGN_IN = (req, res) => {
     if (response.success) {
       let getTokens = () => {
         return new Promise((resolve, reject) => {
-          let tokens = generateTokens(response.user.id);
+          let tokens = generateTokens(response.user);
           resolve(tokens);
         });
       };
@@ -81,7 +81,7 @@ userController.ADMIN_SIGN_IN = (req, res) => {
     if (response.success) {
       let getTokens = () => {
         return new Promise((resolve, reject) => {
-          let tokens = generateTokens(response.user.id);
+          let tokens = generateTokens(response.user);
           resolve(tokens);
         });
       };

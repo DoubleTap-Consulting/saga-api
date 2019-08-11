@@ -1,7 +1,6 @@
-import { verifyToken } from '../utils/auth';
-
 let contentController = {};
-let contentModel = require('../models/content');
+let contentModel = require('../../models/content');
+let { verifyToken } = require('../../utils/auth');
 
 contentController.GET_CONTENT = (req, res) => {
   let authorized = verifyToken(req.headers.authorization);

@@ -1,7 +1,6 @@
-import { verifyToken } from '../utils/auth';
-
+let { verifyToken } = require('../../utils/auth');
 let partnerController = {};
-let partnerModel = require('../models/partner');
+let partnerModel = require('../../models/partner');
 
 partnerController.GET_PARTNERS = (req, res) => {
   let authorized = verifyToken(req.headers.authorization);

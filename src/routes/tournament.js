@@ -1,6 +1,5 @@
-import * as validate from 'express-validation';
-import tournamentCtrl from '../controllers/tournament';
-import * as express from 'express';
+const tournamentCtrl = require('../controllers/tournament');
+const express = require('express');
 
 const router = express.Router();
 
@@ -8,12 +7,12 @@ const router = express.Router();
  * POST /api/v1/tournament,
  * returns new tournament
  */
-router.post('/', tournamentCtrl.create);
+router.post('/', tournamentCtrl.CREATE_TOURNAMENT);
 
 /**
  * GET /api/v1/tournament/id,
  * returns tournament
  */
-router.get('/id', tournamentCtrl.getById);
+router.get('/id', tournamentCtrl.GET_TOURNAMENT);
 
-export default router;
+module.exports = router;

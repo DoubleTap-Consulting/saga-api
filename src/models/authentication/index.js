@@ -1,8 +1,8 @@
-import * as bcrypt from 'bcryptjs';
-import { comparePasswords } from '../utils/auth';
+const bcrypt = require('bcryptjs');
+const { comparePasswords } = require('../../utils/auth');
 
 let userModel = {};
-let User = require('../db').Users;
+let User = require('../../db').Users;
 
 userModel.SIGN_IN = (email, password) => {
   return User.findOne({
@@ -75,7 +75,7 @@ const checkPasword = (password, hashedPassword) => {
 
 const hashPassword = async function(password) {
   try {
-    const hashedPassword = await new Promise((resolve, reject) => {
+    const hashedPassword = new Promise((resolve, reject) => {
       bcrypt.hash(password, 10, function(err, hash) {
         if (err) {
           reject(err);

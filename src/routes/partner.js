@@ -1,6 +1,5 @@
-import * as validate from 'express-validation';
-import partnerCtrl from '../controllers/partner';
-import * as express from 'express';
+const partnerCtrl = require('../controllers/partner');
+const express = require('express');
 
 const router = express.Router();
 
@@ -8,12 +7,12 @@ const router = express.Router();
  * POST /api/v1/partner,
  * returns new partner
  */
-router.post('/', partnerCtrl.create);
+router.post('/', partnerCtrl.CREATE_PARTNER);
 
 /**
  * GET /api/v1/partner/id,
  * returns partner
  */
-router.get('/id', partnerCtrl.getById);
+router.get('/id', partnerCtrl.GET_PARTNER);
 
-export default router;
+module.exports = router;

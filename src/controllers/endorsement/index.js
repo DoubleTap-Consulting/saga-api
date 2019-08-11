@@ -1,7 +1,7 @@
-import { verifyToken } from '../utils/auth';
+let { verifyToken } = require('../../utils/auth');
 
 let endorsementController = {};
-let endorsementModel = require('../models/endorsement');
+let endorsementModel = require('../../models/endorsement');
 
 endorsementController.GET_ENDORSEMENTS = (req, res) => {
   let authorized = verifyToken(req.headers.authorization);

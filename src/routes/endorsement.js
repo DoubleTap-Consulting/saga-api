@@ -1,19 +1,17 @@
-import * as validate from 'express-validation';
-import endorsementCtrl from '../controllers/endorsement';
-import * as express from 'express';
-
+const endorsementCtrl = require('../controllers/endorsement');
+const express = require('express');
 const router = express.Router();
 
 /**
  * POST /api/v1/endorsement,
  * returns new endorsement
  */
-router.post('/', endorsementCtrl.create);
+router.post('/', endorsementCtrl.CREATE_ENDORSEMENT);
 
 /**
  * GET /api/v1/endorsement/id,
  * returns endorsement
  */
-router.get('/id', endorsementCtrl.getById);
+router.get('/id', endorsementCtrl.GET_ENDORSEMENT);
 
-export default router;
+module.exports = router;

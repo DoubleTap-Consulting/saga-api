@@ -1,7 +1,6 @@
-import { verifyToken } from '../utils/auth';
-
+let { verifyToken } = require('../../utils/auth');
 let marketplaceController = {};
-let marketplaceModel = require('../models/marketplace');
+let marketplaceModel = require('../../models/marketplace');
 
 marketplaceController.GET_MARKETPLACE = (req, res) => {
   let authorized = verifyToken(req.headers.authorization);

@@ -1,11 +1,8 @@
-'use strict';
-
-import * as SendGrid from 'sendgrid';
-import { env } from './env';
+const SendGrid = require('sendgrid');
 
 class SendgridService {
   constructor() {
-    this.sendGrid = SendGrid(sendgridApiKey);
+    this.sendGrid = SendGrid(process.env.SENDGRID_API_KEY);
   }
   createRequest(request) {
     return this.sendGrid.emptyRequest({
@@ -37,4 +34,4 @@ class SendgridService {
   }
 }
 
-export const sendgridService = new SendgridService(env.SENDGRID_API_KEY);
+module.exports = new SendgridService(process.env.SENDGRID_API_KEY);

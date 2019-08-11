@@ -1,7 +1,6 @@
-import { verifyToken } from '../utils/auth';
-
+let { verifyToken } = require('../../utils/auth');
 let featuredController = {};
-let featuredModel = require('../models/featured');
+let featuredModel = require('../../models/featured');
 
 featuredController.GET_FEATURED = (req, res) => {
   let authorized = verifyToken(req.headers.authorization);

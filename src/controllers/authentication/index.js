@@ -1,8 +1,8 @@
-import { sendgridService } from '../../config/sendgrid';
-import { generateTokens } from '../utils/auth';
+const { sendgridService } = require('../../config/sendgrid');
+const { generateTokens } = require('../../utils/auth');
 
 let userController = {};
-let userModel = require('../models/user');
+let userModel = require('../../models/user');
 let Promise = require('bluebird');
 
 /**
@@ -20,7 +20,7 @@ userController.SIGN_IN = (req, res) => {
     if (response.success) {
       let getTokens = () => {
         return new Promise((resolve, reject) => {
-          let tokens = generateTokens(response.user.id);
+          let tokens = generateTokens(response.user);
           resolve(tokens);
         });
       };

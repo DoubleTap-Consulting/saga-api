@@ -1,7 +1,6 @@
-import { verifyToken } from '../utils/auth';
-
+let { verifyToken } = require('../../utils/auth');
 let tournamentController = {};
-let tournamentModel = require('../models/tournament');
+let tournamentModel = require('../../models/tournament');
 
 tournamentController.GET_TOURNAMENTS = (req, res) => {
   let authorized = verifyToken(req.headers.authorization);

@@ -1,11 +1,12 @@
-import * as bcrypt from 'bcryptjs';
-import { comparePasswords } from '../utils/auth';
+const bcrypt = require('bcryptjs');
+const { comparePasswords } = require('../../utils/auth');
 
 let userModel = {};
-let User = require('../db').Users;
+let User = require('../../db').Users;
 
 userModel.SIGN_UP = (email, password, gamerTag, termsaccepted) => {
-  const hashedPassword = await hashPassword(password);
+  const hashedPassword = hashPassword(password);
+  console.log('hashed', hashedPassword);
 
   return User.create({
     email: email,

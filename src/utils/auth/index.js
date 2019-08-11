@@ -1,15 +1,10 @@
-import * as jwt from 'jsonwebtoken';
-import * as _ from 'lodash';
-import { series } from 'async';
-import { env } from '../../config/env';
-
-let jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 
 /**
  * Generates jwt accessToken and refreshToken
  * @param userId
- * @param roleId
+ * @param roleId_
  * @param passwordHash - encrypted password
  * @returns {*}
  */
@@ -31,18 +26,18 @@ function generateTokens(user) {
 
           jwt.sign(
             tokenPayload,
-            env.JWT_SECRET,
-            { expiresIn: env.JWT_ACCESS_TOKEN_TTL },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_ACCESS_TOKEN_TTL },
             next,
           );
         },
         refreshToken: next => {
           const timestamp = Date.now();
-          const key = env.JWT_SECRET + passwordHash + timestamp;
+          const key = process.env.JWT_SECRET + passwordHash + timestamp;
           jwt.sign(
             { userId: user.id, timestamp },
             key,
-            { expiresIn: env.JWT_REFRESH_TOKEN_TTL },
+            { expiresIn: process.env.JWT_REFRESH_TOKEN_TTL },
             next,
           );
         },
@@ -58,20 +53,20 @@ function generateTokens(user) {
   });
 }
 
-const generateTokens = user_id => {
-  let token = jwt.sign(
-    {
-      user_id,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: '168h' },
-  );
+// const generateTokens = user_id => {
+//   let token = jwt.sign(
+//     {
+//       user_id,
+//     },
+//     process.process.env.JWT_SECRET,
+//     { expiresIn: '168h' },
+//   );
 
-  return token;
-};
+//   return token;
+// };
 
 const verifyToken = token => {
-  return jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+  return jwt.verify(token, process.process.env.JWT_SECRET, (error, decoded) => {
     if (error) {
       return {
         succeeded: false,
@@ -98,4 +93,9 @@ const comparePasswords = (password, hash) => {
   });
 };
 
-export default { generateTokens, verifyToken, hashPassword, comparePasswords };
+module.exports = {
+  generateTokens,
+  verifyToken,
+  hashPassword,
+  comparePasswords,
+};

@@ -1,19 +1,17 @@
-import * as validate from 'express-validation';
-import contentCtrl from '../controllers/content';
-import * as express from 'express';
-
+const contentCtrl = require('../controllers/content');
+const express = require('express');
 const router = express.Router();
 
 /**
  * POST /api/v1/content,
  * returns new content
  */
-router.post('/', contentCtrl.create);
+router.post('/', contentCtrl.CREATE_ARTICLE);
 
 /**
  * GET /api/v1/content/id,
- * returns content
+ * returns an article
  */
-router.get('/id', contentCtrl.getById);
+router.get('/id', contentCtrl.GET_ARTICLE);
 
-export default router;
+module.exports = router;

@@ -1,9 +1,5 @@
-import * as path from 'path';
-
-/* istanbul ignore next */
 const NODE_ENV = process.env.NODE_ENV || 'development';
-
-import config from './development';
+const config = require('./development');
 
 const defaults = {
   NODE_ENV,
@@ -16,5 +12,5 @@ const defaults = {
   JWT_REFRESH_TOKEN_TTL: process.env.JWT_REFRESH_TOKEN_TTL,
 };
 
-// todo: export default
-export let env = Object.assign(defaults, config);
+let env = Object.assign(defaults, config);
+module.exports = env;
