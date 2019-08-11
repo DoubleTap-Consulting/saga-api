@@ -18,6 +18,7 @@ function generateTokens(user) {
     {
       user_id: user.id,
       role: user.role,
+      gamerTag: user.gamerTag,
     },
     process.env.JWT_SECRET,
   );
