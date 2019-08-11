@@ -14,8 +14,7 @@ let Promise = require('bluebird');
 userController.SIGN_UP = (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  let company = req.body.company;
-  let termsaccepted = req.body.termsaccepted;
+  let gamerTag = req.body.gamerTag;
 
   return userModel.CHECK_USER_EXISTS(email).then(response => {
     if (response.user_exists) {
@@ -26,28 +25,26 @@ userController.SIGN_UP = (req, res) => {
       return;
     }
 
-    userModel
-      .SIGN_UP(email, password, company, termsaccepted)
-      .then(response => {
-        if (!response.success) {
-          res.status(400).send(response);
-          return;
-        }
+    userModel.SIGN_UP(email, password, gamerTag).then(response => {
+      if (!response.success) {
+        res.status(400).send(response);
+        return;
+      }
 
-        const redirectUrl = `${process.env.WEBUI_PROTOCOL}://${
-          process.env.WEBUI_URL
-        }/account-confirmed?activationToken=${activationToken}`;
+      const redirectUrl = `${process.env.WEBUI_PROTOCOL}://${
+        process.env.WEBUI_URL
+      }/account-confirmed?activationToken=${activationToken}`;
 
-        sendgridService.send({
-          to: email,
-          from: 'contact@saga.gg',
-          content: `Please click the following link to verify your email address and activate your account: ${redirectUrl}`,
-          subject: 'Verify your email address for your Saga account.',
-        });
-
-        let token = generateTokens(response.user);
-        res.status(200).send({ token });
+      sendgridService.send({
+        to: email,
+        from: 'contact@saga.gg',
+        content: `Please click the following link to verify your email address and activate your account: ${redirectUrl}`,
+        subject: 'Verify your email address for your Saga account.',
       });
+
+      let token = generateTokens(response.user);
+      res.status(200).send({ token });
+    });
   });
 };
 

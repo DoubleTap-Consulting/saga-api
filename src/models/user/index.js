@@ -4,26 +4,24 @@ const { comparePasswords } = require('../../utils/auth');
 let userModel = {};
 let User = require('../../db').Users;
 
-userModel.SIGN_UP = (email, password, gamerTag, termsaccepted) => {
-  const hashedPassword = hashPassword(password);
-  console.log('hashed', hashedPassword);
-
-  return User.create({
-    email: email,
-    password: hashedPassword,
-    gamerTag,
-    termsaccepted,
-  }).then((user, error) => {
-    if (error) {
+userModel.SIGN_UP = (email, password, gamerTag) => {
+  return hashPassword(password).then(hash => {
+    return User.create({
+      email: email,
+      password: hash,
+      gamerTag,
+    }).then((user, error) => {
+      if (error) {
+        return {
+          success: false,
+          message: 'Failed to register user. Please try a different username.',
+        };
+      }
       return {
-        success: false,
-        message: 'Failed to register user. Please try a different username.',
+        success: true,
+        user,
       };
-    }
-    return {
-      success: true,
-      user,
-    };
+    });
   });
 };
 
@@ -108,23 +106,10 @@ const checkPasword = (password, hashedPassword) => {
   return bcrypt.compareSync(password, hashedPassword);
 };
 
-const hashPassword = async function(password) {
-  try {
-    const hashedPassword = await new Promise((resolve, reject) => {
-      bcrypt.hash(password, 10, function(err, hash) {
-        if (err) {
-          reject(err);
-        }
-        resolve(hash);
-      });
-    });
-    return hashedPassword;
-  } catch (e) {
-    throw {
-      message: 'Error in hashing password',
-      e,
-    };
-  }
+const hashPassword = password => {
+  return bcrypt.hash(password, 10).then(hash => {
+    return hash;
+  });
 };
 
 module.exports = userModel;
