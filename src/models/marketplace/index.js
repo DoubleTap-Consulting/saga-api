@@ -1,5 +1,5 @@
+const Marketplace = require('../../db').Marketplace;
 let marketplaceModel = {};
-let Marketplace = require('../../db').Marketplace;
 
 marketplaceModel.GET_MARKETPLACE = () => {
   return Marketplace.findAll({}).then(marketplace => marketplace);

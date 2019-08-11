@@ -1,4 +1,3 @@
-const { verifyToken } = require('../../utils/auth');
 const endorsementModel = require('../../models/endorsement');
 let endorsementController = {};
 

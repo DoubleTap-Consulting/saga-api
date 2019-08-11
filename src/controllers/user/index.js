@@ -1,5 +1,5 @@
 const sendgridService = require('../../config/sendgrid');
-const { verifyToken, generateTokens } = require('../../utils/auth');
+const { generateTokens } = require('../../utils/auth');
 const userModel = require('../../models/user');
 const uuid = require('uuid');
 let userController = {};

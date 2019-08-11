@@ -1,4 +1,3 @@
-const { verifyToken } = require('../../utils/auth');
 const featuredModel = require('../../models/featured');
 let featuredController = {};
 

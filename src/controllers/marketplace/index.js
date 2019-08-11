@@ -1,4 +1,3 @@
-const { verifyToken } = require('../../utils/auth');
 const marketplaceModel = require('../../models/marketplace');
 let marketplaceController = {};
 

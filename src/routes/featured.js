@@ -1,15 +1,16 @@
 const featuredCtrl = require('../controllers/featured');
 const express = require('express');
 const router = express.Router();
+const { isAdminAuthenticated } = require('../utils/auth');
 
 router
   .route('/')
   .get(featuredCtrl.GET_FEATURED)
-  .post(featuredCtrl.CREATE_FEATURED);
+  .post(isAdminAuthenticated, featuredCtrl.CREATE_FEATURED);
 
 router
   .route('/:featuredId')
-  .put(featuredCtrl.UPDATE_FEATURED)
-  .delete(featuredCtrl.DELETE_FEATURED);
+  .put(isAdminAuthenticated, featuredCtrl.UPDATE_FEATURED)
+  .delete(isAdminAuthenticated, featuredCtrl.DELETE_FEATURED);
 
 module.exports = router;

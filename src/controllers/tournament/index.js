@@ -1,4 +1,3 @@
-const { verifyToken } = require('../../utils/auth');
 const tournamentModel = require('../../models/tournament');
 let tournamentController = {};
 
