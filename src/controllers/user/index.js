@@ -1,4 +1,4 @@
-const { sendgridService } = require('../../config/sendgrid');
+const sendgridService = require('../../config/sendgrid');
 const { verifyToken, generateTokens } = require('../../utils/auth');
 const userModel = require('../../models/user');
 const uuid = require('uuid');
@@ -15,43 +15,62 @@ userController.CREATE_USER = (req, res) => {
   const password = req.body.password;
   const gamerTag = req.body.gamerTag;
 
-  return userModel.CHECK_USER_EXISTS(email).then(response => {
+  return userModel.CHECK_USER_EMAIL_EXISTS(email).then(response => {
     if (response.user_exists) {
       res.status(400).send({
         error: true,
-        message: 'That email is already taken.',
+        message: response.message,
       });
       return;
     }
 
-    userModel.SIGN_UP(email, password, gamerTag).then(response => {
-      if (!response.success) {
-        res.status(400).send(response);
+    return userModel.CHECK_USER_GAMERTAG_EXISTS(gamerTag).then(response => {
+      if (response.user_exists) {
+        res.status(400).send({
+          error: true,
+          message: response.message,
+        });
         return;
       }
 
-      const activationToken = uuid.v4();
+      userModel.SIGN_UP(email, password, gamerTag).then(response => {
+        if (!response.success) {
+          res.status(400).send(response);
+          return;
+        }
 
-      const redirectUrl = `${process.env.WEBUI_PROTOCOL}://${
-        process.env.WEBUI_URL
-      }/account-confirmed?activationToken=${activationToken}`;
+        const activationToken = uuid.v4();
 
-      sendgridService.send({
-        to: email,
-        from: 'contact@saga.gg',
-        content: `Please click the following link to verify your email address and activate your account: ${redirectUrl}`,
-        subject: 'Verify your email address for your Saga account.',
+        const redirectUrl = `${process.env.WEBUI_PROTOCOL}://${
+          process.env.WEBUI_URL
+        }/account-confirmed?activationToken=${activationToken}`;
+
+        sendgridService.send({
+          to: email,
+          from: 'contact@saga.gg',
+          content: `Please click the following link to verify your email address and activate your account: ${redirectUrl}`,
+          subject: 'Verify your email address for your Saga account.',
+        });
+
+        const token = generateTokens(response.user);
+        res.status(200).send({ token });
       });
-
-      const token = generateTokens(response.user);
-      res.status(200).send({ token });
     });
   });
 };
 
 userController.GET_USER = (req, res) => {
+  let user_id = req.params.userId;
+
   return userModel
-    .GET_USER(authorized.decoded.user_id)
+    .GET_USER(user_id)
+    .then(response => res.status(200).send(response));
+};
+
+userController.GET_PROFILE = (req, res) => {
+  // TODO: get userId through auth
+  return userModel
+    .GET_USER(user_id)
     .then(response => res.status(200).send(response));
 };
 
@@ -70,6 +89,24 @@ userController.UPDATE_USER = (req, res) => {
 
 userController.DELETE_USER = (req, res) => {
   return userModel.DELETE_USER().then(() => res.sendStatus(200));
+};
+
+userController.UPDATE_GAMERTAG = (req, res) => {
+  const userId = req.params.userId;
+  const gamerTag = req.body.gamerTag;
+
+  return userModel
+    .UPDATE_USER(userId, gamerTag)
+    .then(response => res.status(200).send(response));
+};
+
+userController.UPDATE_AVATAR = (req, res) => {
+  const userId = req.params.userId;
+  // TODO: implement images
+
+  return userModel
+    .UPDATE_AVATAR(userId)
+    .then(response => res.status(200).send(response));
 };
 
 module.exports = userController;

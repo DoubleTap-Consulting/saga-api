@@ -4,7 +4,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(endorsementCtrl.GET_ENDORSEMENT)
+  .get(endorsementCtrl.GET_ENDORSEMENTS)
   .post(endorsementCtrl.CREATE_ENDORSEMENT);
 
 router

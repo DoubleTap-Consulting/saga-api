@@ -25,7 +25,6 @@ endorsementController.GET_ENDORSEMENT = (req, res) => {
 
 endorsementController.CREATE_ENDORSEMENT = (req, res) => {
   let endorsement = req.body;
-  endorsement.user_id = authorized.decoded.user_id;
 
   return endorsementModel
     .CREATE_ENDORSEMENT(endorsement)

@@ -10,8 +10,11 @@ module.exports = db => {
       description: {
         type: Sequelize.STRING,
       },
-      author: {
+      user_id: {
         type: Sequelize.INTEGER,
+      },
+      body: {
+        type: Sequelize.JSON,
       },
     },
     {
