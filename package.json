@@ -8,10 +8,6 @@
   },
   "author": "",
   "license": "private",
-  "devDependencies": {
-    "cors": "^2.8.4",
-    "nodemon": "^1.18.4"
-  },
   "files": [
     "es",
     "lib"
@@ -19,6 +15,8 @@
   "jsnext:main": "./es/index.js",
   "module": "./es/index.js",
   "dependencies": {
+    "cors": "^2.8.4",
+    "nodemon": "^1.18.4",
     "async": "^2.6.1",
     "axios": "^0.18.1",
     "bcryptjs": "^2.4.3",
