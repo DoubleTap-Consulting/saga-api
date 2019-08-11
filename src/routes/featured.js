@@ -2,16 +2,14 @@ const featuredCtrl = require('../controllers/featured');
 const express = require('express');
 const router = express.Router();
 
-/**
- * POST /api/v1/featured,
- * returns new featured
- */
-router.post('/', featuredCtrl.CREATE_FEATURED);
+router
+  .route('/')
+  .get(featuredCtrl.GET_FEATURED)
+  .post(featuredCtrl.CREATE_FEATURED);
 
-/**
- * GET /api/v1/featured/id,
- * returns featured
- */
-router.get('/id', featuredCtrl.GET_FEATURED);
+router
+  .route('/:featuredId')
+  .put(featuredCtrl.UPDATE_FEATURED)
+  .delete(featuredCtrl.DELETE_FEATURED);
 
 module.exports = router;

@@ -1,9 +1,7 @@
-const { sendgridService } = require('../../config/sendgrid');
+const Promise = require('bluebird');
 const { generateTokens } = require('../../utils/auth');
-
-let userController = {};
-let userModel = require('../../models/user');
-let Promise = require('bluebird');
+const userModel = require('../../models/user');
+let authController = {};
 
 /**
  * Create the user if one doesn't exist. Sends an email with a link to activate their account.
@@ -12,9 +10,9 @@ let Promise = require('bluebird');
  * @param next ExpressNext
  */
 
-userController.SIGN_IN = (req, res) => {
-  let email = req.body.email;
-  let password = req.body.password;
+authController.SIGN_IN = (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
   return userModel.SIGN_IN(email, password).then(response => {
     if (response.success) {
@@ -34,8 +32,8 @@ userController.SIGN_IN = (req, res) => {
   });
 };
 
-userController.VERIFY_EMAIL = (req, res) => {
-  let activationToken = req.body.activationToken;
+authController.VERIFY_EMAIL = (req, res) => {
+  const activationToken = req.body.activationToken;
 
   return authModel.VERIFY_EMAIL(activationToken).then(response => {
     if (response.success) {
@@ -46,8 +44,8 @@ userController.VERIFY_EMAIL = (req, res) => {
   });
 };
 
-userController.LOGOUT = (req, res) => {
+authController.LOGOUT = (req, res) => {
   res.sendStatus(200);
 };
 
-module.exports = userController;
+module.exports = authController;

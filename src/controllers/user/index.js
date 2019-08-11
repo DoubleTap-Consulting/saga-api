@@ -1,10 +1,8 @@
-let { sendgridService } = require('../../config/sendgrid');
-let { verifyToken, generateTokens } = require('../../utils/auth');
+const { sendgridService } = require('../../config/sendgrid');
+const { verifyToken, generateTokens } = require('../../utils/auth');
+const userModel = require('../../models/user');
 const uuid = require('uuid');
-
 let userController = {};
-let userModel = require('../../models/user');
-let Promise = require('bluebird');
 
 /**
  * Create the user if one doesn't exist. Sends an email with a link to activate their account.
@@ -12,10 +10,10 @@ let Promise = require('bluebird');
  * @param res ExpressResp
  * @param next ExpressNext
  */
-userController.SIGN_UP = (req, res) => {
-  let email = req.body.email;
-  let password = req.body.password;
-  let gamerTag = req.body.gamerTag;
+userController.CREATE_USER = (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const gamerTag = req.body.gamerTag;
 
   return userModel.CHECK_USER_EXISTS(email).then(response => {
     if (response.user_exists) {
@@ -45,58 +43,14 @@ userController.SIGN_UP = (req, res) => {
         subject: 'Verify your email address for your Saga account.',
       });
 
-      let token = generateTokens(response.user);
+      const token = generateTokens(response.user);
       res.status(200).send({ token });
     });
   });
 };
 
-userController.SIGN_IN = (req, res) => {
-  let email = req.body.email;
-  let password = req.body.password;
-
-  return userModel.SIGN_IN(email, password).then(response => {
-    if (response.success) {
-      let getTokens = () => {
-        return new Promise((resolve, reject) => {
-          let tokens = generateTokens(response.user);
-          resolve(tokens);
-        });
-      };
-
-      getTokens().then(tokens => {
-        res.status(200).send({ tokens });
-      });
-    } else {
-      res.status(400).send(response);
-    }
-  });
-};
-
-userController.ADMIN_SIGN_IN = (req, res) => {
-  let email = req.body.email;
-  let password = req.body.password;
-
-  return userModel.ADMIN_SIGN_IN(email, password).then(response => {
-    if (response.success) {
-      let getTokens = () => {
-        return new Promise((resolve, reject) => {
-          let tokens = generateTokens(response.user);
-          resolve(tokens);
-        });
-      };
-
-      getTokens().then(tokens => {
-        res.status(200).send({ tokens });
-      });
-    } else {
-      res.status(400).send(response);
-    }
-  });
-};
-
 userController.GET_USER = (req, res) => {
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   if (!authorized.decoded) {
     res.status(400).send({
@@ -111,7 +65,7 @@ userController.GET_USER = (req, res) => {
 };
 
 userController.GET_USERS = (req, res) => {
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   if (!authorized.decoded) {
     res.status(400).send({
@@ -124,8 +78,8 @@ userController.GET_USERS = (req, res) => {
 };
 
 userController.UPDATE_USER = (req, res) => {
-  let userId = req.params.userId;
-  let userDataToUpdate = req.body;
+  const userId = req.params.userId;
+  const userDataToUpdate = req.body;
 
   return userModel
     .UPDATE_USER(userId, userDataToUpdate)
@@ -134,10 +88,6 @@ userController.UPDATE_USER = (req, res) => {
 
 userController.DELETE_USER = (req, res) => {
   return userModel.DELETE_USER().then(() => res.sendStatus(200));
-};
-
-userController.LOGOUT = (req, res) => {
-  res.sendStatus(200);
 };
 
 module.exports = userController;

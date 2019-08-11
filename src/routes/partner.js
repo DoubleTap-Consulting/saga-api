@@ -1,18 +1,16 @@
 const partnerCtrl = require('../controllers/partner');
 const express = require('express');
-
 const router = express.Router();
 
-/**
- * POST /api/v1/partner,
- * returns new partner
- */
-router.post('/', partnerCtrl.CREATE_PARTNER);
+router
+  .route('/')
+  .get(partnerCtrl.GET_PARTNERS)
+  .post(partnerCtrl.CREATE_PARTNER);
 
-/**
- * GET /api/v1/partner/id,
- * returns partner
- */
-router.get('/id', partnerCtrl.GET_PARTNER);
+router
+  .route('/:partnerId')
+  .get(partnerCtrl.GET_PARTNER)
+  .put(partnerCtrl.UPDATE_PARTNER)
+  .delete(partnerCtrl.DELETE_PARTNER);
 
 module.exports = router;

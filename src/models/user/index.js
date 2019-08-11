@@ -102,10 +102,6 @@ userModel.DELETE_USER = id => {
   }).then(user => user);
 };
 
-const checkPasword = (password, hashedPassword) => {
-  return bcrypt.compareSync(password, hashedPassword);
-};
-
 const hashPassword = password => {
   return bcrypt.hash(password, 10).then(hash => {
     return hash;

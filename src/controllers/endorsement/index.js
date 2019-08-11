@@ -1,10 +1,9 @@
-let { verifyToken } = require('../../utils/auth');
-
+const { verifyToken } = require('../../utils/auth');
+const endorsementModel = require('../../models/endorsement');
 let endorsementController = {};
-let endorsementModel = require('../../models/endorsement');
 
 endorsementController.GET_ENDORSEMENTS = (req, res) => {
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   return endorsementModel
     .GET_ENDORSEMENTS(authorized.decoded.user_id)
@@ -28,7 +27,7 @@ endorsementController.GET_ENDORSEMENT = (req, res) => {
 
 endorsementController.CREATE_ENDORSEMENT = (req, res) => {
   const endorsement = req.body;
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   if (!authorized.decoded) {
     res.status(400).send({
