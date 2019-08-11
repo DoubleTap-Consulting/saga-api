@@ -53,15 +53,16 @@ userModel.VERIFY_EMAIL = activationToken => {
   });
 };
 
-userModel.CHECK_USER_EXISTS = email => {
+userModel.CHECK_USER_GAMERTAG_EXISTS = gamerTag => {
   return User.findOne({
     where: {
-      email,
+      gamerTag,
     },
   }).then(user => {
     if (user) {
       return {
         user_exists: true,
+        message: 'That gamertag is already taken.',
       };
     }
     return {

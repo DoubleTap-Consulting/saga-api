@@ -3,28 +3,16 @@ const authCtrl = require('../controllers/authentication');
 const userCtrl = require('../controllers/user');
 const router = express.Router();
 
-/**
- * POST /api/v1/auth/register,
- * returns auth token
- */
-router.post('/register', userCtrl.CREATE_USER);
-
-/**
- * POST /api/v1/auth/login,
- * returns new auth token
- */
-router.post('/login', authCtrl.SIGN_IN);
-
-/**
- * POST /api/v1/auth/logout,
- * returns success
- */
-router.delete('/logout', authCtrl.LOGOUT);
-
-/**
- * POST /api/v1/auth/verify-email?apiToken,
- * returns new auth token
- */
 router.get('/verify-email', authCtrl.VERIFY_EMAIL);
+
+router.route('/register').post(userCtrl.CREATE_USER);
+
+router.route('/login').post(authCtrl.SIGN_IN);
+
+router.route('/gamerTag/:gamerTag').get(authCtrl.CHECK_GAMERTAG);
+
+router.route('/logout').delete(authCtrl.LOGOUT);
+
+router.route('/verify-email').get(authCtrl.VERIFY_EMAIL);
 
 module.exports = router;
