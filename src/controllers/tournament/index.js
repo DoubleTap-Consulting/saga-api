@@ -1,9 +1,9 @@
-let { verifyToken } = require('../../utils/auth');
+const { verifyToken } = require('../../utils/auth');
+const tournamentModel = require('../../models/tournament');
 let tournamentController = {};
-let tournamentModel = require('../../models/tournament');
 
 tournamentController.GET_TOURNAMENTS = (req, res) => {
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   return tournamentModel
     .GET_TOURNAMENTS(authorized.decoded.user_id)
@@ -27,7 +27,7 @@ tournamentController.GET_TOURNAMENT = (req, res) => {
 
 tournamentController.CREATE_TOURNAMENT = (req, res) => {
   const tournament = req.body;
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   if (!authorized.decoded) {
     res.status(400).send({

@@ -3,7 +3,7 @@ const authCtrl = require('../controllers/authentication');
 const userCtrl = require('../controllers/user');
 const router = express.Router();
 
-router.post('/register', userCtrl.SIGN_UP);
+router.post('/register', userCtrl.CREATE_USER);
 router.post('/login', authCtrl.SIGN_IN);
 router.delete('/logout', authCtrl.LOGOUT);
 

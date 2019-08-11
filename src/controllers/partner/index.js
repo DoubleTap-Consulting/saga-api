@@ -1,9 +1,9 @@
-let { verifyToken } = require('../../utils/auth');
+const { verifyToken } = require('../../utils/auth');
+const partnerModel = require('../../models/partner');
 let partnerController = {};
-let partnerModel = require('../../models/partner');
 
 partnerController.GET_PARTNERS = (req, res) => {
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   return partnerModel
     .GET_PARTNERS(authorized.decoded.user_id)
@@ -27,7 +27,7 @@ partnerController.GET_PARTNER = (req, res) => {
 
 partnerController.CREATE_PARTNER = (req, res) => {
   const partner = req.body;
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   if (!authorized.decoded) {
     res.status(400).send({

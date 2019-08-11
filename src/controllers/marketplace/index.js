@@ -1,9 +1,9 @@
-let { verifyToken } = require('../../utils/auth');
+const { verifyToken } = require('../../utils/auth');
+const marketplaceModel = require('../../models/marketplace');
 let marketplaceController = {};
-let marketplaceModel = require('../../models/marketplace');
 
 marketplaceController.GET_MARKETPLACE = (req, res) => {
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   return marketplaceModel
     .GET_MARKETPLACE(authorized.decoded.user_id)
@@ -27,7 +27,7 @@ marketplaceController.GET_PRODUCT = (req, res) => {
 
 marketplaceController.CREATE_PRODUCT = (req, res) => {
   const product = req.body;
-  let authorized = verifyToken(req.headers.authorization);
+  const authorized = verifyToken(req.headers.authorization);
 
   if (!authorized.decoded) {
     res.status(400).send({
