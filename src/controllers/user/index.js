@@ -1,5 +1,6 @@
 let { sendgridService } = require('../../config/sendgrid');
 let { verifyToken, generateTokens } = require('../../utils/auth');
+const uuid = require('uuid');
 
 let userController = {};
 let userModel = require('../../models/user');
@@ -30,6 +31,8 @@ userController.SIGN_UP = (req, res) => {
         res.status(400).send(response);
         return;
       }
+
+      const activationToken = uuid.v4();
 
       const redirectUrl = `${process.env.WEBUI_PROTOCOL}://${
         process.env.WEBUI_URL

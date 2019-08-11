@@ -33,20 +33,21 @@ userModel.SIGN_IN = (email, password) => {
   });
 };
 
-userModel.VERIFY_EMAIL = email => {
+userModel.VERIFY_EMAIL = activationToken => {
   return User.findOne({
     where: {
-      email,
+      activationToken,
     },
   }).then(user => {
-    if (user.email_verified) {
-      return {
-        success: true,
-      };
+    if (user) {
+      User.update(
+        { email_verified: true, activationToken: null },
+        { where: activationToken },
+      );
     } else {
       return {
         success: false,
-        message: 'Please verify your email address',
+        message: 'No activation token found',
       };
     }
   });

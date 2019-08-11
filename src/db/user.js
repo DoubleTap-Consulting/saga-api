@@ -10,6 +10,11 @@ module.exports = db => {
       selected_game: {
         type: Sequelize.STRING,
       },
+      gamerTag: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false,
+      },
       gaming_level: {
         type: Sequelize.STRING,
       },
