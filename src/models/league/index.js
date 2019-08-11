@@ -1,9 +1,17 @@
 let leagueModel = {};
 let League = require('../../db').Leagues;
 
+leagueModel.GET_LEAGUE = id => {
+  return League.findOne({
+    where: {
+      id,
+    },
+    attributes: { exclude: ['updatedAt', 'createdAt'] },
+  }).then(league => league);
+};
+
 leagueModel.GET_LEAGUES = () => {
-  return League.findAll({
-  }).then(leagues => leagues);
+  return League.findAll({}).then(leagues => leagues);
 };
 
 leagueModel.CREATE_LEAGUE = leagueData => {
