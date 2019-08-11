@@ -49,11 +49,7 @@ authController.CHECK_GAMERTAG = (req, res) => {
   const gamerTag = req.params.gamerTag;
 
   return authModel.CHECK_USER_GAMERTAG_EXISTS(gamerTag).then(response => {
-    if (response.success) {
-      res.status(200).send(response);
-    } else {
-      res.status(400).send(response);
-    }
+    res.status(200).send(response);
   });
 };
 

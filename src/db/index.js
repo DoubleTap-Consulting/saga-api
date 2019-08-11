@@ -10,7 +10,7 @@ let Marketplace = require('./marketplace')(db);
 let Featured = require('./featured')(db);
 let Partner = require('./partner')(db);
 
-// // HELPER TO DROP ALL TABLES
+// HELPER TO DROP ALL TABLES
 // db.sync({force: true}).then(() => {
 //   console.log('Tables have been dropped')
 // })
