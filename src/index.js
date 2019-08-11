@@ -10,20 +10,12 @@ import * as logger from 'morgan';
 import * as helmet from 'helmet';
 import * as expressValidation from 'express-validation';
 import * as path from 'path';
-import { dbInit } from './config/db';
 // import './config/passport-strategies/local'; // init passport strategies
 import routes from './routes';
 import {
-  authError,
   objectionError,
   genericError,
-  validationError,
 } from './utils/middleware/error-handlers';
-
-const { Model } = require('objection');
-
-dbInit(process.env);
-// Configure express server
 
 const app = express()
   .set('port', 4240)
