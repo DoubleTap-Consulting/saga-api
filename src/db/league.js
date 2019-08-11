@@ -6,9 +6,19 @@ module.exports = db => {
     {
       title: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       description: {
         type: Sequelize.STRING,
+        allowNull: false,
+      },
+      teams: {
+        type: Sequelize.JSON,
+        defaultValue: [],
+      },
+      game: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
     },
     {
