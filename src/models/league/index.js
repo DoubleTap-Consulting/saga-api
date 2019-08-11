@@ -1,5 +1,5 @@
 let leagueModel = {};
-let League = require('../../db').league;
+let League = require('../../db').Leagues;
 
 leagueModel.GET_LEAGUES = () => {
   return League.findAll({
