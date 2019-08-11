@@ -7,6 +7,7 @@ const featuredRoutes = require('./featured');
 const marketplaceRoutes = require('./marketplace');
 const partnerRoutes = require('./partner');
 const contentRoutes = require('./content');
+const leaguesRoutes = require('./league')
 const router = express.Router();
 
 router.use('/auth', authenticationRoutes);
@@ -17,5 +18,6 @@ router.use('/featured', featuredRoutes);
 router.use('/marketplace', marketplaceRoutes);
 router.use('/partners', partnerRoutes);
 router.use('/content', contentRoutes);
+router.use('/leagues', leaguesRoutes)
 
 module.exports = router;
