@@ -1,37 +1,34 @@
 const SendGrid = require('sendgrid');
+const sendGrid = SendGrid(process.env.SENDGRID_API_KEY);
+let SendgridService = {};
 
-class SendgridService {
-  constructor() {
-    this.sendGrid = SendGrid(process.env.SENDGRID_API_KEY);
-  }
-  createRequest(request) {
-    return this.sendGrid.emptyRequest({
-      method: 'POST',
-      path: '/v3/mail/send',
-      body: {
-        personalizations: [
-          {
-            to: [{ email: request.to }],
-            subject: request.subject,
-          },
-        ],
-        from: { email: request.from },
-        content: [
-          {
-            type: 'text/plain',
-            value: request.content,
-          },
-        ],
-      },
-    });
-  }
+SendgridService.createRequest = request => {
+  return sendGrid.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: {
+      personalizations: [
+        {
+          to: [{ email: request.to }],
+          subject: request.subject,
+        },
+      ],
+      from: { email: request.from },
+      content: [
+        {
+          type: 'text/plain',
+          value: request.content,
+        },
+      ],
+    },
+  });
+};
 
-  send(emailRequest) {
-    const request = this.sendGrid.emptyRequest(
-      this.createRequest(emailRequest),
-    );
-    return this.sendGrid.API(request);
-  }
-}
+SendgridService.send = emailRequest => {
+  const request = sendGrid.emptyRequest(
+    SendgridService.createRequest(emailRequest),
+  );
+  return sendGrid.API(request);
+};
 
-module.exports = new SendgridService(process.env.SENDGRID_API_KEY);
+module.exports = SendgridService;

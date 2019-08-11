@@ -35,9 +35,9 @@ userController.SIGN_IN = (req, res) => {
 };
 
 userController.VERIFY_EMAIL = (req, res) => {
-  let email = req.body.email;
+  let activationToken = req.body.activationToken;
 
-  return authModel.VERIFY_EMAIL(email).then(response => {
+  return authModel.VERIFY_EMAIL(activationToken).then(response => {
     if (response.success) {
       res.status(200).send(response);
     } else {
