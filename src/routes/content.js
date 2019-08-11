@@ -1,16 +1,17 @@
 const contentCtrl = require('../controllers/content');
 const express = require('express');
 const router = express.Router();
+const { isAdminAuthenticated, isAuthenticated } = require('../utils/auth');
 
 router
   .route('/')
   .get(contentCtrl.GET_CONTENT)
-  .post(contentCtrl.CREATE_ARTICLE);
+  .post(isAuthenticated, contentCtrl.CREATE_ARTICLE);
 
 router
   .route('/:articleId')
   .get(contentCtrl.GET_ARTICLE)
-  .put(contentCtrl.UPDATE_ARTICLE)
-  .delete(contentCtrl.DELETE_ARTICLE);
+  .put(isAuthenticated, contentCtrl.UPDATE_ARTICLE)
+  .delete(isAdminAuthenticated, contentCtrl.DELETE_ARTICLE);
 
 module.exports = router;

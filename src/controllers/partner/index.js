@@ -1,4 +1,3 @@
-const { verifyToken } = require('../../utils/auth');
 const partnerModel = require('../../models/partner');
 let partnerController = {};
 

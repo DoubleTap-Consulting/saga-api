@@ -1,5 +1,4 @@
 const contentModel = require('../../models/content');
-const { verifyToken } = require('../../utils/auth');
 let contentController = {};
 
 contentController.GET_CONTENT = (req, res) => {

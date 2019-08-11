@@ -17,27 +17,59 @@ function generateTokens(user) {
   let token = jwt.sign(
     {
       user_id: user.id,
+      role: user.role,
     },
     process.env.JWT_SECRET,
-    { expiresIn: '168h' },
   );
 
   return token;
 }
 
-const verifyToken = token => {
-  return jwt.verify(token, process.process.env.JWT_SECRET, (error, decoded) => {
-    if (error) {
-      return {
-        succeeded: false,
-        error,
-      };
-    } else {
-      return {
-        succeeded: true,
-        decoded,
-      };
-    }
+const isAuthenticated = (req, res, next) => {
+  let token = req.headers.authorization;
+
+  if (!token)
+    return res.status(400).send({
+      error: true,
+      message: 'User is not logged in',
+    });
+
+  return jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+    if (error)
+      return res.status(400).send({
+        error: true,
+        message: 'Malformed token',
+      });
+    if (decoded.role === 'user' || decoded.role === 'admin') return next();
+
+    res.status(400).send({
+      error: true,
+      message: 'User is not logged in',
+    });
+  });
+};
+
+const isAdminAuthenticated = (req, res, next) => {
+  let token = req.headers.authorization;
+
+  if (!token)
+    return res.status(400).send({
+      error: true,
+      message: 'User is not logged in',
+    });
+
+  return jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+    if (error)
+      return res.status(400).send({
+        error: true,
+        message: 'Malformed token',
+      });
+    if (decoded.role === 'admin') return next();
+
+    res.status(400).send({
+      error: true,
+      message: 'User does not have access',
+    });
   });
 };
 
@@ -55,7 +87,8 @@ const comparePasswords = (password, hash) => {
 
 module.exports = {
   generateTokens,
-  verifyToken,
+  isAuthenticated,
+  isAdminAuthenticated,
   hashPassword,
   comparePasswords,
 };
