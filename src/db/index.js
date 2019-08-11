@@ -1,5 +1,4 @@
 let db = require('./db.config');
-let Sequelize = require('sequelize');
 
 // Set table schema
 let User = require('./user')(db);

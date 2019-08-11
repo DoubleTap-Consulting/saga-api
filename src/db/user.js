@@ -6,9 +6,11 @@ module.exports = db => {
     {
       name: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       selected_game: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       gamerTag: {
         type: Sequelize.STRING,
@@ -17,9 +19,11 @@ module.exports = db => {
       },
       gaming_level: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       perspective_preference: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       heading: {
         type: Sequelize.STRING,
@@ -27,6 +31,7 @@ module.exports = db => {
       },
       team: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       email: {
         type: Sequelize.STRING,
@@ -55,12 +60,15 @@ module.exports = db => {
       },
       twitter_url: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       instagram_url: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       twitch_url: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       experience: {
         type: Sequelize.JSON,
@@ -68,6 +76,7 @@ module.exports = db => {
       },
       highlight_video: {
         type: Sequelize.STRING,
+        defaultValue: '',
       },
       summary: {
         type: Sequelize.STRING,
@@ -85,11 +94,30 @@ module.exports = db => {
         defaultValue: '',
       },
       peripherals: {
-        type: Sequelize.STRING,
-        defaultValue: '',
+        type: Sequelize.JSON,
+        defaultValue: {
+          headphones: '',
+          keyboard: '',
+          motherboard: '',
+          graphics_card: '',
+          cpu: '',
+          ram: '',
+          power_supply: '',
+          fans: '',
+          case: '',
+        },
       },
       schedule: {
         type: Sequelize.JSON,
+        defaultValue: {
+          Monday: [],
+          Tuesday: [],
+          Wednesday: [],
+          Thursday: [],
+          Friday: [],
+          Saturday: [],
+          Sunday: [],
+        },
       },
     },
     {

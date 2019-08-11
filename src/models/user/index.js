@@ -53,7 +53,7 @@ userModel.SIGN_IN = (email, password) => {
   });
 };
 
-userModel.CHECK_USER_EXISTS = email => {
+userModel.CHECK_USER_EMAIL_EXISTS = email => {
   return User.findOne({
     where: {
       email,
@@ -62,6 +62,25 @@ userModel.CHECK_USER_EXISTS = email => {
     if (user) {
       return {
         user_exists: true,
+        message: 'That email is already taken.',
+      };
+    }
+    return {
+      user_exists: false,
+    };
+  });
+};
+
+userModel.CHECK_USER_GAMERTAG_EXISTS = gamerTag => {
+  return User.findOne({
+    where: {
+      gamerTag,
+    },
+  }).then(user => {
+    if (user) {
+      return {
+        user_exists: true,
+        message: 'That gamertag is already taken.',
       };
     }
     return {

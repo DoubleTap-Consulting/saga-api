@@ -6,9 +6,27 @@ module.exports = db => {
     {
       title: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       description: {
         type: Sequelize.STRING,
+        allowNull: false,
+      },
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      length: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      prize_pool: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      leaderboard: {
+        type: Sequelize.JSON,
+        defaultValue: [],
       },
     },
     {

@@ -10,6 +10,12 @@ module.exports = db => {
       description: {
         type: Sequelize.STRING,
       },
+      image: {
+        type: Sequelize.STRING,
+      },
+      website: {
+        type: Sequelize.STRING,
+      },
     },
     {
       freezeTableName: true,
