@@ -66,7 +66,7 @@ const isAdminAuthenticated = (req, res, next) => {
         error: true,
         message: 'Malformed token',
       });
-    if (decoded.role === 'admin') return next();
+    if (decoded.admin) return next();
 
     res.status(400).send({
       error: true,
