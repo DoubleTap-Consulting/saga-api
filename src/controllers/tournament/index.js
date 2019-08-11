@@ -1,6 +1,6 @@
+let { verifyToken } = require('../../utils/auth');
 let tournamentController = {};
-let tournamentModel = require('../models/tournament');
-let verifyToken = require('../helpers/auth').verifyToken;
+let tournamentModel = require('../../models/tournament');
 
 tournamentController.GET_TOURNAMENTS = (req, res) => {
   let authorized = verifyToken(req.headers.authorization);
@@ -35,8 +35,6 @@ tournamentController.CREATE_TOURNAMENT = (req, res) => {
     });
     return;
   }
-
-  tournament.user_id = authorized.decoded.user_id;
 
   return tournamentModel
     .CREATE_TOURNAMENT(tournament)

@@ -1,102 +1,53 @@
-import * as express from 'express';
-import * as httpStatus from 'http-status';
-import { User, UserToken } from '../../models';
-import authHelper from '../../utils/auth';
-import * as jwt from 'jsonwebtoken';
+const { sendgridService } = require('../../config/sendgrid');
+const { generateTokens } = require('../../utils/auth');
 
-export const token = async (req, res) => {
-  const dummyToken = 'absd';
-  const user = User.createToken(dummyToken);
-  res.json(dummyToken);
-};
+let userController = {};
+let userModel = require('../../models/user');
+let Promise = require('bluebird');
 
 /**
- * Returns jwt accessToken and refreshToken
- * -- Email and password validation handled in passport middleware
- * @param req
- * @param res
- * @param next
- * @returns {*}
- */
-async function sign(req, res, next) {
-  try {
-    const id = req.user.id || req.user.userId;
-
-    const user = await User.basicInfo().findById(id);
-
-    if (!user) {
-      return next({
-        status: httpStatus.INTERNAL_SERVER_ERROR,
-        message: 'User Not Found',
-      });
-    }
-
-    const tokens = await authHelper.generateTokens(user);
-    const { accessToken, refreshToken } = tokens;
-    const decodedRefreshToken = jwt.decode(refreshToken, { complete: true });
-    const decodedAccessToken = jwt.decode(accessToken, { complete: true });
-    const updatedUser = await User.query().upsertGraph({
-      id: user.id,
-      userToken: [
-        {
-          refresh:
-            decodedRefreshToken &&
-            typeof decodedRefreshToken === 'object' &&
-            decodedRefreshToken.signature,
-          access:
-            decodedAccessToken &&
-            typeof decodedAccessToken === 'object' &&
-            decodedAccessToken.signature,
-        },
-      ],
-    });
-    return res.json({
-      accessToken,
-      refreshToken,
-      user,
-    });
-  } catch (e) {
-    return next(e);
-  }
-}
-
-/**
- * Verifies that the user has activated their account once they click the link on their email.
+ * Create the user if one doesn't exist. Sends an email with a link to activate their account.
  * @param req ExpressReq
  * @param res ExpressResp
  * @param next ExpressNext
  */
-export const verifyEmail = async (req, res, next) => {
-  try {
-    let user = await User.query()
-      .findOne({})
-      .innerJoin('userToken', 'userToken.userId', 'user.id')
-      .where('userToken.activation', '=', req.query.activationToken);
-    if (!user) {
-      return next({
-        status: httpStatus.CONFLICT,
-        message: 'No token exists for that user',
+
+userController.SIGN_IN = (req, res) => {
+  let email = req.body.email;
+  let password = req.body.password;
+
+  return userModel.SIGN_IN(email, password).then(response => {
+    if (response.success) {
+      let getTokens = () => {
+        return new Promise((resolve, reject) => {
+          let tokens = generateTokens(response.user);
+          resolve(tokens);
+        });
+      };
+
+      getTokens().then(tokens => {
+        res.status(200).send({ tokens });
       });
     } else {
-      // Probably should do this in a transaction. Update the activated field to true, and then delete the token.
-      user = await User.query()
-        .findById(user.id)
-        .patch({ activated: true });
-      await UserToken.query()
-        .delete()
-        .where({ activation: req.query.activationToken });
+      res.status(400).send(response);
     }
-    res.json({
-      httpStatus: 'OK',
-      message: 'Account Verified',
-    });
-  } catch (e) {
-    return next(e);
-  }
+  });
 };
 
-export default {
-  token,
-  verifyEmail,
-  sign,
+userController.VERIFY_EMAIL = (req, res) => {
+  let email = req.body.email;
+
+  return authModel.VERIFY_EMAIL(email).then(response => {
+    if (response.success) {
+      res.status(200).send(response);
+    } else {
+      res.status(400).send(response);
+    }
+  });
 };
+
+userController.LOGOUT = (req, res) => {
+  res.sendStatus(200);
+};
+
+module.exports = userController;

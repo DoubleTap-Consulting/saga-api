@@ -1,5 +1,5 @@
 let tournamentModel = {};
-let Tournament = require('../db').tournaments;
+let Tournament = require('../../db').tournaments;
 
 tournamentModel.GET_TOURNAMENTS = tournament_id => {
   return Tournament.findAll({
