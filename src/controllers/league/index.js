@@ -27,11 +27,11 @@ leagueController.CREATE_LEAGUE = (req, res) => {
 };
 
 leagueController.UPDATE_LEAGUE = (req, res) => {
-  const articleId = req.params.articleId;
-  const articleDataToUpdate = req.body;
+  const leageId = req.params.leageId;
+  const leagueData = req.body;
 
   return contentModel
-    .UPDATE_LEAGUE(articleId, articleDataToUpdate)
+    .UPDATE_LEAGUE(leagueId, leagueData)
     .then(response => {
       res.status(200).send(response[1][0]);
     });
