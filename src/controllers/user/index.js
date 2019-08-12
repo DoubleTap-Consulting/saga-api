@@ -80,6 +80,15 @@ userController.GET_USERS = (req, res) => {
   return userModel.GET_USERS().then(response => res.status(200).send(response));
 };
 
+userController.SEARCH = (req, res) => {
+  let lookupValue = req.query.search;
+
+  return userModel.SEARCH(lookupValue).then(response => {
+    if (response.error) return res.status(400).send(response);
+    return res.status(200).send(response);
+  });
+};
+
 userController.UPDATE_USER = (req, res) => {
   const userId = req.params.userId;
   const userDataToUpdate = req.body;

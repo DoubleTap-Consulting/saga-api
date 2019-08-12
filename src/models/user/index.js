@@ -53,6 +53,30 @@ userModel.SIGN_IN = (email, password) => {
   });
 };
 
+userModel.SEARCH = lookupValue => {
+  return User.findAll({
+    limit: 10,
+    where: {
+      gamerTag: sequelize.where(
+        sequelize.fn('LOWER', sequelize.col('gamerTag')),
+        'LIKE',
+        '%' + lookupValue + '%',
+      ),
+    },
+  })
+    .then(users => {
+      return {
+        users,
+      };
+    })
+    .catch(error => {
+      return {
+        error: true,
+        message: error,
+      };
+    });
+};
+
 userModel.CHECK_USER_EMAIL_EXISTS = email => {
   return User.findOne({
     where: {
