@@ -8,7 +8,11 @@ module.exports = db => {
         type: Sequelize.STRING,
         defaultValue: '',
       },
-      selected_game: {
+      tagline: {
+        type: Sequelize.STRING,
+        defaultValue: '',
+      },
+      game: {
         type: Sequelize.STRING,
         defaultValue: '',
       },
@@ -79,6 +83,9 @@ module.exports = db => {
       twitch_username: {
         type: Sequelize.STRING,
         defaultValue: '',
+      },
+      discord_username: {
+        type: Sequelize.STRING,
       },
       highlight_video: {
         type: Sequelize.STRING,
