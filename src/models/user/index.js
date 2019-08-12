@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const sequelize = require('sequelize');
 const { comparePasswords } = require('../../utils/auth');
 const User = require('../../db').Users;
 let userModel = {};
@@ -63,6 +64,18 @@ userModel.SEARCH = lookupValue => {
         '%' + lookupValue + '%',
       ),
     },
+    attributes: [
+      'id',
+      'name',
+      'gamerTag',
+      'game',
+      'profile_views',
+      'role',
+      'avatar',
+      'createdAt',
+      'gaming_level',
+      'team',
+    ],
   })
     .then(users => {
       return {

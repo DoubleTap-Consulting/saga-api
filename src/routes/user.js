@@ -9,13 +9,13 @@ router
   .post(userCtrl.CREATE_USER)
   .delete(isAuthenticated, userCtrl.DELETE_USER);
 
+router.route('/search').get(userCtrl.SEARCH);
+
+router.route('/users').get(userCtrl.GET_USERS);
+
 router
   .route('/:userId')
   .get(userCtrl.GET_USER)
   .put(isAuthenticated, userCtrl.UPDATE_USER);
-
-router.route('/search').get(userCtrl.SEARCH);
-
-router.route('/users').get(userCtrl.GET_USERS);
 
 module.exports = router;
