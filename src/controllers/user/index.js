@@ -68,10 +68,12 @@ userController.GET_USER = (req, res) => {
 };
 
 userController.GET_PROFILE = (req, res) => {
-  // TODO: get userId through auth
-  return userModel
-    .GET_USER(user_id)
-    .then(response => res.status(200).send(response));
+  let user_id = req.user.user_id;
+
+  return userModel.GET_USER(user_id).then(response => {
+    userModel.ADD_VIEW(user_id);
+    res.status(200).send(response);
+  });
 };
 
 userController.GET_USERS = (req, res) => {

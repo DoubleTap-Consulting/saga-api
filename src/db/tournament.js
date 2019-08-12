@@ -28,6 +28,14 @@ module.exports = db => {
         type: Sequelize.JSON,
         defaultValue: [],
       },
+      videos: {
+        type: Sequelize.JSON,
+        defaultValue: [],
+      },
+      rules: {
+        type: Sequelize.JSON,
+        defaultValue: [],
+      },
     },
     {
       freezeTableName: true,

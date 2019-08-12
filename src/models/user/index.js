@@ -98,6 +98,16 @@ userModel.GET_USER = userId => {
   }).then(user => user);
 };
 
+userModel.ADD_VIEW = userId => {
+  return User.findOne({
+    where: {
+      id: userId,
+    },
+  }).then(user => {
+    return user.increment('profile_views', { by: 1 });
+  });
+};
+
 userModel.GET_USERS = () => {
   return User.findAll({
     attributes: { exclude: ['password'] },
