@@ -90,7 +90,8 @@ userController.UPDATE_USER = (req, res) => {
 };
 
 userController.DELETE_USER = (req, res) => {
-  return userModel.DELETE_USER().then(() => res.sendStatus(200));
+  let user_id = req.user.user_id;
+  return userModel.DELETE_USER(user_id).then(() => res.sendStatus(200));
 };
 
 userController.UPDATE_GAMERTAG = (req, res) => {

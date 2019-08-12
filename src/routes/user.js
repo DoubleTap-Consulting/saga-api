@@ -6,13 +6,13 @@ const { isAuthenticated } = require('../utils/auth');
 router
   .route('/')
   .get(isAuthenticated, userCtrl.GET_PROFILE)
-  .post(userCtrl.CREATE_USER);
+  .post(userCtrl.CREATE_USER)
+  .delete(isAuthenticated, userCtrl.DELETE_USER);
 
 router
   .route('/:userId')
   .get(userCtrl.GET_USER)
-  .put(isAuthenticated, userCtrl.UPDATE_USER)
-  .delete(isAuthenticated, userCtrl.DELETE_USER);
+  .put(isAuthenticated, userCtrl.UPDATE_USER);
 
 router.route('/users').get(userCtrl.GET_USERS);
 

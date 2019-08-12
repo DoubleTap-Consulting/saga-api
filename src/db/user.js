@@ -54,6 +54,16 @@ module.exports = db => {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+      pubgId: {
+        type: Sequelize.STRING,
+      },
+      fortnite_gamertag: {
+        type: Sequelize.STRING,
+      },
+      hacker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       avatar: {
         type: Sequelize.INTEGER,
         defaultValue: null,
