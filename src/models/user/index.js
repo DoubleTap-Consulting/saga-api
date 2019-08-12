@@ -94,7 +94,7 @@ userModel.GET_USER = gamerTag => {
     where: {
       gamerTag,
     },
-    attributes: { exclude: ['password', 'id', 'updatedAt'] },
+    attributes: { exclude: ['password', 'updatedAt'] },
   }).then(user => user);
 };
 
