@@ -89,10 +89,10 @@ userModel.CHECK_USER_GAMERTAG_EXISTS = gamerTag => {
   });
 };
 
-userModel.GET_USER = userId => {
+userModel.GET_USER = gamerTag => {
   return User.findOne({
     where: {
-      id: userId,
+      gamerTag,
     },
     attributes: { exclude: ['password', 'id', 'updatedAt'] },
   }).then(user => user);
