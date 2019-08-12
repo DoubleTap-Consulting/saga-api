@@ -68,19 +68,23 @@ module.exports = db => {
         type: Sequelize.INTEGER,
         defaultValue: null,
       },
-      twitter_url: {
+      twitter_username: {
         type: Sequelize.STRING,
         defaultValue: '',
       },
-      instagram_url: {
+      instagram_username: {
         type: Sequelize.STRING,
         defaultValue: '',
       },
-      twitch_url: {
+      twitch_username: {
         type: Sequelize.STRING,
         defaultValue: '',
       },
-      experience: {
+      highlight_video: {
+        type: Sequelize.STRING,
+        defaultValue: '',
+      },
+      experiences: {
         type: Sequelize.JSON,
         defaultValue: [],
       },
