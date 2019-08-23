@@ -74,15 +74,15 @@ module.exports = db => {
       },
       twitter_username: {
         type: Sequelize.STRING,
-        defaultValue: '',
       },
       instagram_username: {
         type: Sequelize.STRING,
-        defaultValue: '',
       },
       twitch_username: {
         type: Sequelize.STRING,
-        defaultValue: '',
+      },
+      discord_url: {
+        type: Sequelize.STRING,
       },
       discord_username: {
         type: Sequelize.STRING,
